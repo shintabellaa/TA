@@ -24,6 +24,7 @@ class BiodatapribadiController extends Controller
         // dd(public_path());
         $biodatapribadi = User::all();
         $regencies = Regency::all();
+
         return view ('biodatapegawai.pegawai', compact('biodatapribadi','regencies'));
         // return view ('biodatapegawai.biodatapribadi', [
         //     'biodatapribadi' => $biodatapribadi
@@ -77,7 +78,7 @@ class BiodatapribadiController extends Controller
             'npwp'=>$request->nonpwp,
             'role_id'=>3,
             'username'=>$request->nip_nik,
-            'password'=>$request->nip_nik,
+            'password'=>bcrypt($request->nip_nik),
             'bpjs'=>$request->nobpjs,
             'gender'=>$request->jeniskelamin,
             'religion'=>$request->agama,
@@ -100,7 +101,7 @@ class BiodatapribadiController extends Controller
 
         $address_detail= Address_Details::create([
             'address__details_id'=> "ADDRESS-".$count,
-            'nip/nik'=> $request->nip_nik,
+            'nip_nik'=> $request->nip_nik,
             'district_id'=> $request->kecamatan,
             'street'=>$request->jalan,
             'phone_number'=>$request->notelepon,
@@ -109,6 +110,26 @@ class BiodatapribadiController extends Controller
 
         return redirect()->back();
 
+    }
+
+    public function edit($nip_nik){
+        $biodatapribadi=user::find($nip_nik);
+        $regencies = Regency::all();
+
+        return view('biodatapegawai.updatebiodatapribadi',[
+
+            'biodatapribadi'=>$biodatapribadi,
+            'regencies'=>$regencies
+
+        ]);
+
+    }
+
+    public function destroy($id)
+    {
+        $biodatapribadi=User::where('nip_nik', '=', '$id')->delete();
+
+        return redirect()->back();
     }
 
 }

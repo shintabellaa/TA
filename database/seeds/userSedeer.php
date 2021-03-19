@@ -14,9 +14,9 @@ class userSedeer extends Seeder
     {
         $users = [
             [
-                'nip/nik' => '12345678',
+                'nip_nik' => '12345678',
                 'role_id' => 1,
-                'nidn' => '',
+                'nidn' => '1231231',
                 'username' => 'admin',
                 'password' => bcrypt('admin'),
                 'title_ahead' => 'Dr',
@@ -24,7 +24,7 @@ class userSedeer extends Seeder
                 'back_title' => 'MSG',
                 'birth_place' => '',
                 'birth_date' => now(),
-                'photo' => '',
+                'photo' => 'pat/data',
                 'blood_group' => 'A-',
                 'height' => '178',
                 'weight' => '40',

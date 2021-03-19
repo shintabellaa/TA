@@ -61,7 +61,7 @@
                                     <svg class="c-icon">
                                         <use xlink:href="{{asset('template/@coreui/icons/sprites/free.svg#cil-envelope-open')}}"></use>
                                     </svg></span></div>
-                                <input class="form-control" type="text" placeholder="NIP/NIK" name="NIP/NIK">
+                                <input class="form-control" type="text" placeholder="NIP/NIK" name="nip_nik">
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend"><span class="input-group-text">

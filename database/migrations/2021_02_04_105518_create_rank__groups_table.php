@@ -11,7 +11,7 @@ class CreateRankGroupsTable extends Migration
     {
         Schema::create('rank__groups', function (Blueprint $table) {
             $table->string('rank_group_id', 50);
-            $table->string('nip/nik', 50);
+            $table->string('nip_nik', 50);
             $table->date('tmt');
             $table->text('sk_no');
             $table->date('sk_date');
@@ -20,7 +20,7 @@ class CreateRankGroupsTable extends Migration
             $table->string('sk_file', 100);
             $table->timestamps();
             $table->primary('rank_group_id');
-            $table->foreign('nip/nik')->references('nip/nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('nip_nik')->references('nip_nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -11,7 +11,7 @@ class CreateFamilyDetailsTable extends Migration
     {
         Schema::create('family__details', function (Blueprint $table) {
             $table->string('id_number', 50);
-            $table->string('nip/nik', 50);
+            $table->string('nip_nik', 50);
             $table->string('name', 100);
             $table->string('relationship', 50);
             $table->string('phone_number', 50);
@@ -24,7 +24,7 @@ class CreateFamilyDetailsTable extends Migration
             $table->timestamps();
             $table->primary('id_number');
 
-            $table->foreign('nip/nik')->references('nip/nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('nip_nik')->references('nip_nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -15,7 +15,7 @@ class CreateTrainingsTable extends Migration
     {
         Schema::create('trainings', function (Blueprint $table) {
             $table->string('training_id', 20);
-            $table->string('nip/nik', 30);
+            $table->string('nip_nik', 30);
             $table->string('number_of_hour', 30);
             $table->string('training_name', 100);
             $table->string('type_of_training', 30);
@@ -25,7 +25,7 @@ class CreateTrainingsTable extends Migration
             $table->timestamps();
             $table->primary('training_id');
 
-            $table->foreign('nip/nik')->references('nip/nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('nip_nik')->references('nip_nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

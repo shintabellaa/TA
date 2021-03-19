@@ -22,11 +22,11 @@ class UserLoginController extends Controller
     public function postLogin(Request $request)
     {
         $request->validate([
-            'nip/nik'   => 'required',
+            'nip_nik'   => 'required',
             'password'  => 'required'
         ]);
 
-        if(Auth::attempt($request->only('nip/nik','password')))
+        if(Auth::attempt($request->only('nip_nik','password')))
         {
             return redirect()->route('login');
         }

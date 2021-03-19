@@ -40,7 +40,7 @@ class CreateUsersTable extends Migration
             $table->string('retirement_age_limit', 50);
             $table->string('employee_status', 50);
             // $table->timestamp('email_verified_at')->nullable();
-            $table->primary('nip/nik');
+            $table->primary('nip_nik');
             $table->rememberToken();
             $table->timestamps();
         });

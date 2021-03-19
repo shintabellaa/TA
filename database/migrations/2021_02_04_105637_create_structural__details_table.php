@@ -10,7 +10,7 @@ class CreateStructuralDetailsTable extends Migration
     public function up()
     {
         Schema::create('structural__details', function (Blueprint $table) {
-            $table->string('nip/nik', 50);
+            $table->string('nip_nik', 50);
             $table->string('structural_id', 50);
             $table->date('tmt');
             $table->string('sign_by', 100);
@@ -19,9 +19,9 @@ class CreateStructuralDetailsTable extends Migration
             $table->string('status', 50);
             $table->string('sk_file', 100);
             $table->timestamps();
-            $table->primary(['nip/nik','tmt','structural_id']);
+            $table->primary(['nip_nik','tmt','structural_id']);
 
-            $table->foreign('nip/nik')->references('nip/nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('nip_nik')->references('nip_nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('structural_id')->references('structural_id')->on('structurals')->onDelete('cascade')->onUpdate('cascade');
 
 

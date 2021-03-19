@@ -26,6 +26,10 @@ Route::post('/biodatapribadi/simpan', 'BiodatapribadiController@store')->name('b
 
 Route::get('/listbiodatapegawai', 'BiodatapribadiController@indexlist')->name('list.biodata');
 
+Route::get('/listbiodatapegawai/{id}/edit', 'BiodatapribadiController@edit')->name('edit.biodata');
+
+Route::delete('/listbiodatapegawai/destroy/{id}', 'BiodatapribadiController@destroy')->name('delete.biodata');
+
 
 
 

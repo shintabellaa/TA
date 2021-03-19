@@ -18,7 +18,7 @@ class CreateBanksTable extends Migration
             $table->timestamps();
             $table->primary(['id_bank', 'nip_nik']);
 
-            $table->foreign('nip_nik')->references('nip/nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('nip_nik')->references('nip_nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('bank_name_id')->references('bank_name_id')->on('bank__names')->onDelete('cascade')->onUpdate('cascade');
         });
     }

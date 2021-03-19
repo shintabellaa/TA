@@ -10,7 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
 
-    protected $primaryKey = 'nip/nik';
+    protected $primaryKey = 'nip_nik';
     protected $table = 'users';
     protected $fillable = ['nip_nik','nidn','role_id','username', 'password', 'title_ahead',
     'real_name', 'back_title', 'birth_place', 'birth_date','photo','group','blood_group','height',

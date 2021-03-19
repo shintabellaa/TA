@@ -11,14 +11,14 @@ class CreateAddressDetailsTable extends Migration
     {
         Schema::create('address__details', function (Blueprint $table) {
             $table->string('address__details_id', 50);
-            $table->string('nip/nik', 50);
+            $table->string('nip_nik', 50);
             $table->string('district_id', 100);
             $table->string('street', 100);
             $table->string('phone_number', 20);
             $table->timestamps();
             $table->primary('address__details_id');
 
-            $table->foreign('nip/nik')->references('nip/nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('nip_nik')->references('nip_nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

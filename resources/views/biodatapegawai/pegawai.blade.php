@@ -32,11 +32,11 @@
                                     <td class="text-center">{{$data->nip_nik}}</td>
                                     <td class="text-center"></td>
                                     <td class="text-center">
-                                        <a href="" class="btn btn-warning" id="editButton" data-toggle="modal" data-target="#editPegawai">
+                                        <a href="{{route('edit.biodata', $data->nip_nik)}}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
                                             <i class="cil-pencil"></i>
                                         </a>
                                         <form
-                                            action=""
+                                            action="{{ route('delete.biodata', $data->nip_nik) }}"
                                             method="post" onclick="return confirm('Anda yakin menghapus data ?')"
                                             class="d-inline">
                                             @csrf
@@ -60,7 +60,7 @@
 
 <!-- Modal Edit  -->
 
-<div class="modal fade" id="editPegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+{{-- <div class="modal fade" id="editPegawai" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -70,7 +70,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body">
+           <div class="modal-body">
                 <form action="#" method="POST">
                     @csrf
                     @method('PATCH')
@@ -93,14 +93,14 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary">Simpan</button>
-            </div>
+            </div> --}}
             </form>
         </div>
     </div>
 </div>
 
 @section('javascript')
-<script>
+{{-- <script>
     $(document).ready(function () {
         $(document).on("click", "#editButton", function () {
             var id_department = $(this).data("id_department");
@@ -114,4 +114,4 @@
             console.log(id_department);
         })
     })
-</script>
+</script> --}}

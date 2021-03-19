@@ -58,7 +58,7 @@
                                 </svg>
                             </span>
                         </div>
-                        <input class="form-control" type="text" placeholder="NIP/NIK" name="nip/nik">
+                        <input class="form-control" type="text" placeholder="NIP_NIK" name="nip_nik">
                     </div>
                     <div class="input-group mb-4">
                         <div class="input-group-prepend">

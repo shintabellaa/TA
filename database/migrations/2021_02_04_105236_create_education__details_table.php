@@ -12,7 +12,7 @@ class CreateEducationDetailsTable extends Migration
         Schema::create('education__details', function (Blueprint $table) {
             $table->string('education_details_id', 30);
             $table->string('education_id', 30);
-            $table->string('nip/nik', 30);
+            $table->string('nip_nik', 30);
             $table->string('name', 100);
             $table->string('major', 50);
             $table->year('graduation_year');
@@ -21,10 +21,10 @@ class CreateEducationDetailsTable extends Migration
             $table->string('certificate_file', 100);
             $table->timestamps();
             $table->primary('education_details_id');
-        
+
 
             $table->foreign('education_id')->references('education_id')->on('education')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreign('nip/nik')->references('nip/nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('nip_nik')->references('nip_nik')->on('users')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }
