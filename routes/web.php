@@ -28,7 +28,29 @@ Route::get('/listbiodatapegawai', 'BiodatapribadiController@indexlist')->name('l
 
 Route::get('/listbiodatapegawai/{id}/edit', 'BiodatapribadiController@edit')->name('edit.biodata');
 
-Route::delete('/listbiodatapegawai/destroy/{id}', 'BiodatapribadiController@destroy')->name('delete.biodata');
+
+// Route::delete('/listbiodatapegawai/destroy/{id}', 'BiodatapribadiController@destroy')->name('delete.biodata');
+
+//unit kerja
+Route::resource('unitkerja', 'WorkUnitController');
+
+
+Route::get('/biodatakeluarga', 'FamilyController@index')->name('biodatakeluarga.index');
+
+
+Route::get('/struktural', 'StructuralController@index')->name('struktural.index');
+
+
+Route::get('/fungsional', 'FunctionalController@index')->name('fungsional.index');
+
+Route:: get('/pangkatgolongan', 'RankGroupController@index')->name('pangkatgolongan.index');
+
+
+// Route::resource('struktural', 'StructuralController');
+
+
+
+// Route::resource('fungsional', 'FunctionalController');
 
 
 

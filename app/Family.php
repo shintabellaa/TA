@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Family_Details extends Model
-{
 
+class Family extends Model
+{
 
     protected $primaryKey = 'id_number';
     protected $table = 'family';

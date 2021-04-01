@@ -3,83 +3,71 @@
 namespace App\Http\Controllers;
 
 use App\Functional;
+use App\Functional_Details;
 use Illuminate\Http\Request;
+
 
 class FunctionalController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
+
+    public function index1()
     {
-        //
+         //load data
+         $fungsionals = Functional::all();
+         //buka halaman dan kirim data, kirim data = compact
+         return view('fungsional.index', compact('fungsionals'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+}
+
     public function create()
     {
-        //
+        return view('fungsional.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        Functional::create([
+            'fungsional_id' => $request->fungsional_id,
+            'name' => $request->name,
+            'entry_date' => $request->entry_date
+        ]);
+        return redirect()->route('fungsional.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Functional  $functional
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Functional $functional)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Functional  $functional
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit(Functional $functional)
     {
-        //
+        $fungsional = Functional::find($id);
+        return view('fungsional.edit', compact('fungsional'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Functional  $functional
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, Functional $functional)
     {
-        //
+        $fungsional = Functional::find($id);
+        $fungsional->update([
+            'fungsional_id' => $request->fungsional_id,
+            'name' => $request->name,
+            'entry_date' => $request->entry_date
+        ]);
+
+        return redirect()->route('fungsional.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Functional  $functional
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Functional $functional)
     {
-        //
+        $fungsional = Functional::find($id);
+        $fungsional->delete();
+
+        return redirect()->route('fungsional.index');
     }
 }

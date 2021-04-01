@@ -18,6 +18,11 @@ class CreateBankNamesTable extends Migration
             $table->string('bank_name', 50);
             $table->timestamps();
             $table->primary('bank_name_id');
+
+
+
+
+           
         });
     }
 

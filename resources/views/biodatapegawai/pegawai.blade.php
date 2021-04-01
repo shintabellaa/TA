@@ -35,7 +35,7 @@
                                         <a href="{{route('edit.biodata', $data->nip_nik)}}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
                                             <i class="cil-pencil"></i>
                                         </a>
-                                        <form
+                                        {{-- <form
                                             action="{{ route('delete.biodata', $data->nip_nik) }}"
                                             method="post" onclick="return confirm('Anda yakin menghapus data ?')"
                                             class="d-inline">
@@ -44,7 +44,7 @@
                                             <button class="btn btn-youtube">
                                                 <i class="cil-trash"></i>
                                             </button>
-                                        </form>
+                                        </form> --}}
                                     </td>
                                 </tr>
                                 @endforeach

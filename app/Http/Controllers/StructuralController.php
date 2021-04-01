@@ -2,84 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Structural;
+use App\Structural_Details;
 use Illuminate\Http\Request;
+
 
 class StructuralController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        // //load data
+        $strukturals = Structural_Details::join('structurals', 'structural_detail.structural_id','=', 'structurals.structural_id') ->get();
+        // //buka halaman dan kirim data, kirim data = compact
+        return view('struktural.index', compact('strukturals'));
+
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        //
+        return view('struktural.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        Structural::create([
+            'structural_id' => $request->struktural_id,
+            'name' => $request->name,
+            'entry_date' => $request->entry_date
+        ]);
+        return redirect()->route('struktural.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Structural  $structural
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Structural $structural)
+    public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Structural  $structural
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Structural $structural)
+    public function edit($id)
     {
-        //
+        $struktural = Structural::find($id);
+        return view('struktural.edit', compact('struktural'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Structural  $structural
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Structural $structural)
+    public function update(Request $request, $id)
     {
-        //
+        $struktural = Structural::find($id);
+        $struktural->update([
+            'struktural_id' => $request->struktural_id,
+            'name' => $request->name,
+            'entry_date' => $request->entry_date
+        ]);
+
+        return redirect()->route('struktural.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Structural  $structural
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Structural $structural)
+    public function destroy($id)
     {
-        //
+        $struktural = Structural::find($id);
+        $struktural->delete();
+
+        return redirect()->route('struktural.index');
     }
 }
