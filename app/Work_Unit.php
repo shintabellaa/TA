@@ -3,13 +3,35 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Alfa6661\AutoNumber\AutoNumberTrait;
 
 class Work_Unit extends Model
 {
-    protected $table = 'work_units';
     protected $primaryKey = 'work_unit_id';
+    protected $table = 'work_units';
+    protected $fillable = ['work_unit_id', 'name'];
     public $incrementing = false;
+    public $timestamps = false;
 
-    protected $fillable = ['work_unit_id', 'name', 'entry_date'];
+
+    public function employee_transfer(){
+        return $this->hasMany(Employee_Transfer::class, 'work_unit_id', 'work_unit_id');
+    }
+
+    use AutoNumberTrait;
+    public function getAutoNumberOptions()
+    {
+        return [
+            'work_unit_id' => [
+                'format' => 'WU-?', // autonumber format. '?' will be replaced with the generated number.
+                'length' => 5 // The number of digits in an autonumber
+            ]
+        ];
+    }
+
+
+
+
+
 
 }

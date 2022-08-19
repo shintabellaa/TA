@@ -3,83 +3,85 @@
 namespace App\Http\Controllers;
 
 use App\Training;
+use App\User;
 use Illuminate\Http\Request;
+
 
 class TrainingController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $trainings = Training::all();
+        //buka halaman dan kirim data, kirim data = compact
+        return view('training.index', compact('trainings'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        return view('training.create', compact('biodatapegawai'));;
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
+
     public function store(Request $request)
     {
-        //
+        // dd($request->all());
+        $fileName = $request->certificate_file->getClientOriginalName();
+        $trainings= Training::create([
+            'training_id' => $request->training_id,
+            'nip_nik' => $request->nip_nik,
+            'training_name' => $request->training_name,
+            'type_of_training' => $request->type_of_training,
+            'place' => $request->place,
+            'hour' => $request->hour,
+            'year' => $request->year,
+            'certificate_file' => $request->certificate_file->storeAs('certificate_file', $fileName,'public'),
+
+        ]);
+        return redirect()->route('biodatapegawai.index',['nip_nik']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Training $training)
+
+    public function show($training_id)
     {
-        //
+        $trainings = Training::find($training_id);
+        return view('training.show', compact('trainings'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Training $training)
+
+    public function edit($id)
     {
-        //
+        $trainings = Training::find($id);
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        return view('training.edit', compact('trainings','biodatapegawai'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Training $training)
+    public function update( Request $request, $id)
     {
-        //
+        $trainings = Training::find($id);
+        $trainings->update([
+
+        'nip_nik' => $request->nip_nik,
+        'training_name' => $request->training_name,
+        'type_of_training' => $request->type_of_training,
+        'place' => $request->place,
+        'hour' => $request->hour,
+        'year' => $request->year,
+        'certificate_file' => $request->certificate_file,
+        ]);
+
+
+        return redirect()->route('biodatapegawai.index',['nip_nik']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Training  $training
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Training $training)
+    public function destroy($id)
     {
-        //
+        $trainings = training::find($id);
+        $trainings->delete();
+
+        return redirect()->back();
     }
 }

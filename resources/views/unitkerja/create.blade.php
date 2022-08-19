@@ -8,7 +8,7 @@
                 <div class="card">
                     <div class="card-body">
                         {{-- ubah route --}}
-                        {{ Form::open(array('url' => route('unit-kerja.store') )) }}
+                        {{ Form::open(array('url' => route('unitkerja.store') )) }}
                             @include('unitkerja._form')
                             <div>
                                 <button type="submit" class="btn btn-primary"><span class="cil-save btn-icon mr-2"></span>Simpan</button>

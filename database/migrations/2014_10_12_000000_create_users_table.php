@@ -30,7 +30,6 @@ class CreateUsersTable extends Migration
             $table->string('weight', 50);
             $table->string('handicap', 50);
             $table->string('email')->unique();
-            $table->string('id_card_number', 50);
             $table->string('npwp', 50);
             $table->string('bpjs', 50);
             $table->enum('gender', ['laki-laki', 'perempuan']);

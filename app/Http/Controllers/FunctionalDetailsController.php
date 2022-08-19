@@ -3,83 +3,95 @@
 namespace App\Http\Controllers;
 
 use App\Functional_Details;
+use App\Functional;
+use App\User;
 use Illuminate\Http\Request;
 
 class FunctionalDetailsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        //
+        $fungsionaldetail = Functional_Details::all();
+        return view('fungsionaldetail.index', compact('fungsionaldetail'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+
+    public function create(Request $request)
     {
-        //
+
+       $biodatapegawai = User::pluck('real_name','nip_nik');
+       $fungsionaldetail = Functional_Details::pluck('functional_id');
+       $fungsional = Functional::pluck('information','functional_id');
+        return view('fungsionaldetail.create', compact('biodatapegawai','fungsional','fungsionaldetail'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+
+        // dd( $request->sk_file->getClientOriginalName());
+        // dd($request->all());
+
+        $fileNamee = $request->sk_file->getClientOriginalName();
+        $fungsionaldetail= Functional_Details::create([
+            'functional_id'=>$request->input('functional_id'),
+            'nip_nik'=>$request->input('nip_nik'),
+            'tmt'=>$request->input('tmt'),
+            'sign_by'=>$request->input('sign_by'),
+            'sk_no'=>$request->input('sk_no'),
+            'sk_date'=>$request->input('sk_date'),
+            'status'=>$request->input('status'),
+            'sk_file' => $request->sk_file->storeAs('sk_file_fungsional', $fileNamee,'public'),
+
+        ]);
+        return redirect()->route('biodatapegawai.index',['nip_nik']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Functional_Details  $functional_Details
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Functional_Details $functional_Details)
+
+    public function show($functional_id)
     {
-        //
+        $fungsionaldetail = Functional_Details::find($functional_id);
+        return view('biodatapribadi.show', compact('fungsionaldetail'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Functional_Details  $functional_Details
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Functional_Details $functional_Details)
+
+    public function edit($functional_id)
     {
-        //
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $fungsionaldetail = Functional_Details::find('functional_id');
+        $fungsional = Functional::pluck('information','functional_id');
+         return view('fungsionaldetail.edit', compact('biodatapegawai','fungsional','fungsionaldetail'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Functional_Details  $functional_Details
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Functional_Details $functional_Details)
+
+    public function update(Request $request, $functional_id)
     {
-        //
+        $fileName = $request->sk_file->getClientOriginalName();
+        $fungsionaldetail = Functional_Details::find($functional_id);
+        $fungsionaldetail->update([
+            'functional_id'=>$request->functional_id,
+            'nip_nik'=>$request->nip_nik,
+            'tmt'=>$request->tmt,
+            'sign_by'=>$request->sign_by,
+            'sk_no'=>$request->sk_no,
+            'sk_date'=>$request->sk_date,
+            'status'=>$request->status,
+            'sk_file' => $request->sk_file->storeAs('sk_file', $fileName,'public'),
+
+        ]);
+
+        return redirect()->route('fungsionaldetail.index');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Functional_Details  $functional_Details
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Functional_Details $functional_Details)
+
+    public function destroy($id)
     {
-        //
+        $fungsionaldetail = Functional_Details::find($id);
+        $fungsionaldetail->delete();
+
+        return redirect()->route('fungsionaldetail.index');
     }
+
+
 }
+

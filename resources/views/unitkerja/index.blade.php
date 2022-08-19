@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <div class="d-flex">
                                 {{-- rubah href mulai --}}
-                                <a href="{{ route('unit-kerja.create') }}" class="btn btn-primary">Tambah Unit Kerja</a>
+                                <a href="{{ route('unitkerja.create') }}" class="btn btn-primary">Tambah Unit Kerja</a>
                                 {{-- rubah href seleai --}}
                             </div>
                         </div>
@@ -20,9 +20,9 @@
                             <thead>
                                 {{-- rubah mulai --}}
                                 <tr>
-                                    <th class="text-center">ID</th>
-                                    <th class="text-center">Nama</th>
-                                    <th class="text-center">Entry Create</th>
+                                    <th class="text-center">No</th>
+                                    <th class="text-center">Unit Kerja</th>
+                                    {{-- <th class="text-center">Tingkat</th> --}}
                                     <th class="text-center">Aksi</th>
                                 </tr>
                                 {{-- rubah selesai --}}
@@ -30,15 +30,18 @@
                             <tbody>
                                 @foreach ($work_units as $work_unit)
                                     <tr>
-                                        <td class="text-center">{{ $work_unit->work_unit_id }}</td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
                                         <td class="text-center">{{ $work_unit->name }}</td>
-                                        <td class="text-center">{{ $work_unit->entry_date }}</td>
+                                        {{-- <td class="text-center">{{ $work_unit->level }}</td> --}}
                                         <td class="text-center">
-                                            <a href="{{ route('unit-kerja.edit',$work_unit->work_unit_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
+                                            <a href="{{ route('unitkerja.show',$work_unit->work_unit_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
+                                                <i class="cil-zoom-in"></i>
+                                            </a>
+                                            <a href="{{ route('unitkerja.edit',$work_unit->work_unit_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
                                                 <i class="cil-pencil"></i>
                                             </a>
                                             <form
-                                            action="{{ route('unit-kerja.destroy', $work_unit->work_unit_id) }}"
+                                            action="{{ route('unitkerja.destroy', $work_unit->work_unit_id) }}"
                                             method="post" onclick="return confirm('Anda yakin menghapus data ?')"
                                             class="d-inline">
                                             @csrf
@@ -46,6 +49,7 @@
                                             <button class="btn btn-youtube">
                                                 <i class="cil-trash"></i>
                                             </button>
+
                                         </form>
                                         </td>
                                     </tr>

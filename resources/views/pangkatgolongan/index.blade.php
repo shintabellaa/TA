@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <div class="d-flex">
                                 {{-- rubah href mulai --}}
-                                <a href="" class="btn btn-primary">Tambah Pangkat Golongan</a>
+                                {{-- <a href="{{ route('pangkatgolongan.create') }}" class="btn btn-primary">Tambah Pangkat Golongan</a> --}}
                                 {{-- rubah href seleai --}}
                             </div>
                         </div>
@@ -42,14 +42,18 @@
                                         <td class="text-center">{{ $data->sk_file}}</td>
 
                                         <td class="text-center">
-                                            <a href=""class="btn btn-warning" id="editButton" data-target="#editpangkatgolongan">
+                                            <a href="{{route('pangkatgolongan.show',$data->rank_group_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
+                                                <i class="cil-zoom-in"></i>
+                                            </a>
+                                            <a href="{{route('pangkatgolongan.edit',$data->rank_group_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
                                                 <i class="cil-pencil"></i>
                                             </a>
                                             <form
-                                            action=""
+                                            action="{{ route('pangkatgolonganuser.destroy',$data->rank_group_id) }}"
                                             method="post" onclick="return confirm('Anda yakin menghapus data ?')"
                                             class="d-inline">
                                             @csrf
+
                                             @method('DELETE')
                                             <button class="btn btn-youtube">
                                                 <i class="cil-trash"></i>

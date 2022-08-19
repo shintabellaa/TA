@@ -17,22 +17,24 @@ class WorkUnitController extends Controller
 
     public function create()
     {
+        $work_units = Work_Unit::all();
         return view('unitkerja.create');
     }
 
     public function store(Request $request)
     {
         Work_Unit::create([
-            'work_unit_id' => $request->work_unit_id,
             'name' => $request->name,
-            'entry_date' => $request->entry_date
+
+
         ]);
         return redirect()->route('unitkerja.index');
     }
 
     public function show($id)
     {
-        //
+        $work_unit = Work_Unit::find($id);
+        return view('unitkerja.show', compact('work_unit'));
     }
 
     public function edit($id)
@@ -45,12 +47,11 @@ class WorkUnitController extends Controller
     {
         $work_unit = Work_Unit::find($id);
         $work_unit->update([
-            'work_unit_id' => $request->work_unit_id,
-            'name' => $request->name,
-            'entry_date' => $request->entry_date
-        ]);
 
+            'name' => $request->name,
+        ]);
         return redirect()->route('unitkerja.index');
+
     }
 
     public function destroy($id)

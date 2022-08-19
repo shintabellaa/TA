@@ -10,7 +10,7 @@
                         <div class="card-header">
                             <div class="d-flex">
                                 {{-- rubah href mulai --}}
-                                <a href="{{ route('fungsional.index') }}" class="btn btn-primary">Tambah Fungsional</a>
+                                <a href="{{ route('fungsional.create') }}" class="btn btn-primary">Tambah Fungsional</a>
                                 {{-- rubah href seleai --}}
                             </div>
                         </div>
@@ -18,28 +18,30 @@
                     <div class="card-body">
                         <table class="table table-responsive-sm table-striped">
                             <thead>
-                                {{-- rubah mulai --}}
+
                                 <tr>
                                     <th class="text-center">No</th>
                                     <th class="text-center">Jabatan Fungsional</th>
-                                    <th class="text-center">Entry Create</th>
+
                                     <th class="text-center">Aksi</th>
                                 </tr>
-                                {{-- rubah selesai --}}
+
                             </thead>
                             <tbody>
-                                @foreach ($fungsionals as $fungsional)
+                                @foreach ($fungsional as $fungsionals)
                                     <tr>
-                                        <td class="text-center">{{ $loop->iteration}}</td>
-                                        <td class="text-center">{{ $fungsional->fungsional_id}}</td>
-                                        <td class="text-center">{{ $fungsional->name }}</td>
-                                        <td class="text-center">{{ $fungsional->entry_date }}</td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">{{ $fungsionals->information}}</td>
+
                                         <td class="text-center">
-                                            <a href=""class="btn btn-warning" id="editButton" data-target="#editPegawai">
+                                            <a href="{{ route('fungsional.show',$fungsionals->functional_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
+                                                <i class="cil-zoom-in"></i> 
+                                            </a>
+                                            <a href="{{ route('fungsional.edit',$fungsionals->functional_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
                                                 <i class="cil-pencil"></i>
                                             </a>
                                             <form
-                                            action=""
+                                            action="{{ route('fungsional.destroy', $fungsionals->functional_id) }}"
                                             method="post" onclick="return confirm('Anda yakin menghapus data ?')"
                                             class="d-inline">
                                             @csrf

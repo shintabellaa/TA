@@ -29,6 +29,6 @@ class CreateWorkUnitsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('work__units');
+        Schema::dropIfExists('work_units');
     }
 }

@@ -13,7 +13,7 @@ class CreateBankNamesTable extends Migration
      */
     public function up()
     {
-        Schema::create('bank__names', function (Blueprint $table) {
+        Schema::create('bank_names', function (Blueprint $table) {
             $table->string('bank_name_id', 30);
             $table->string('bank_name', 50);
             $table->timestamps();
@@ -22,7 +22,7 @@ class CreateBankNamesTable extends Migration
 
 
 
-           
+
         });
     }
 

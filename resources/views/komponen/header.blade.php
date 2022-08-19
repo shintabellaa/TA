@@ -50,7 +50,7 @@
           <div class="dropdown-header bg-light py-2"><strong>Settings</strong></div><a class="dropdown-item" href="{{url('profil')}}">
             <svg class="c-icon mr-2">
               <use xlink:href="{{asset('template/@coreui/icons/sprites/free.svg#cil-user')}}"></use>
-            </svg> Profil</a><a class="dropdown-item" href="#">
+            </svg> Profil</a><a class="dropdown-item" href="dat">
             <svg class="c-icon mr-2">
               <use xlink:href="{{asset('template/@coreui/icons/sprites/free.svg#cil-settings')}}"></use>
             </svg> Settings</a><a class="dropdown-item" href="#">

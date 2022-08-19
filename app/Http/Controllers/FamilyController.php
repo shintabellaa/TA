@@ -2,87 +2,96 @@
 
 namespace App\Http\Controllers;
 
-use App\Family_Details;
 use Illuminate\Http\Request;
 use App\District;
 use App\Family;
 use App\User;
+use App\Education;
+
 
 
 class FamilyController extends Controller
 {
 
     public function index(){
-        $biodatakeluarga = User::get();
+        $biodatakeluarga = Family::get();
         // $regencies = Regency::all();
-        return view ('biodatakeluarga.index', compact('biodatakeluarga'));
+        return view ('biodatakeluarga._form', compact('biodatakeluarga'));
     }
 
     public function create()
     {
-        return view('biodatakeluarga.create');
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $biodatakeluarga = Family::all();
+        $education = Education::pluck('level','education_id');
+        return view('biodatakeluarga.create', compact('biodatapegawai','biodatakeluarga','education'));
     }
 
 
     public function store(Request $request)
     {
+        // dd($request->all());
         Family::create([
-            'id_number' => $request->no_id,
-            'nip/nik' => $request->nip/nik,
-            'name' => $request->nama,
-            'relationship'=>$request->hubungan,
-            'phone_no'=>$request->nohp,
-            'birth_date'=>$request->tanggallahir,
-            'birth_place'=>$request->tempatlahir,
-            'status'=>$request->status,
-            'occupation'=>$request->pekerjaan,
-            'last_education'=>$request->pendidikanterakhir,
-            'npwp_no'=>$request->npwp,
+            'id_number' => $request->id_number,
+            'nip_nik' => $request->nip_nik,
+            'name' => $request->name,
+            'relationship'=>$request->relationship,
+            'phone_number'=>$request->phone_number,
+            'birth_date'=>$request->birth_date,
+            'birth_place'=>$request->birth_place,
+            'occupation'=>$request->occupation,
+            'last_education'=>$request->last_education,
+            'npwp_no'=>$request->npwp_no,
 
 
         ]);
-        return redirect()->route('biodatakeluarga.index');
+
+        return redirect()->route('biodatapegawai.index',['nip_nik']);
     }
 
 
-    public function show(Functional $functional)
-    {
-        //
-    }
-
-
-    public function edit(Functional $functional)
+    public function show($id)
     {
         $biodatakeluarga = Family::find($id);
-        return view('biodatakeluarga.edit', compact('biodatakeluarga'));
+        return view('biodatakeluarga.show', compact('biodatakeluarga'));
     }
 
 
-    public function update(Request $request, Functional $functional)
+    public function edit($id_number)
     {
-        $biodatakeluarga = Family::find($id);
+        $biodatakeluarga = Family::find($id_number);
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $education = Education::pluck('level','education_id');
+
+        return view('biodatakeluarga.edit', compact('biodatakeluarga','biodatapegawai',"education"));
+    }
+
+
+    public function update(Request $request, $id_number)
+    {
+        $biodatakeluarga = Family::find($id_number);
         $biodatakeluarga->update([
-            'id_number' => $request->no_id,
-            'nip/nik' => $request->nip/nik,
-            'name' => $request->nama,
-            'relationship'=>$request->hubungan,
-            'phone_no'=>$request->nohp,
-            'birth_date'=>$request->tanggallahir,
-            'birth_place'=>$request->tempatlahir,
-            'status'=>$request->status,
-            'occupation'=>$request->pekerjaan,
-            'last_education'=>$request->pendidikanterakhir,
-            'npwp_no'=>$request->npwp,
+            // 'id_number' => $request->id_number,
+            'nip/nik' => $request->nip_nik,
+            'name' => $request->name,
+            'relationship'=>$request->relationship,
+            'phone_no'=>$request->phone_no,
+            'birth_date'=>$request->birth_date,
+            'birth_place'=>$request->birth_place,
+            'occupation'=>$request->occupation,
+            'last_education'=>$request->last_education,
+            'npwp_no'=>$request->npwp_no,
         ]);
 
-        return redirect()->route('biodatakeluarga.index');
+        return redirect()->route('biodatapegawai.index',['nip_nik']);
+
     }
 
-    public function destroy(Functional $functional)
+    public function destroy($id)
     {
         $biodatakeluarga = Family::find($id);
         $biodatakeluarga->delete();
 
-        return redirect()->route('biodatakeluarga.index');
+        return redirect()->route('biodatapegawai.index',['nip_nik']);
     }
 }
