@@ -29,6 +29,10 @@ class TrainingUserController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+
+        $extension = $request->certificate_file->extension();
+        if ($extension == "pdf"){
+
         $fileName = $request->certificate_file->getClientOriginalName();
         $trainings= Training::create([
             'training_id' => $request->training_id,
@@ -39,16 +43,23 @@ class TrainingUserController extends Controller
             'hour' => $request->hour,
             'year' => $request->year,
             'certificate_file' => $request->certificate_file->storeAs('certificate_file', $fileName,'public'),
-
+   
         ]);
         return redirect('/profildiri');
+    }
+    else{
+        echo "<script>alert('ekstensi file salah')</script>";
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        return view('traininguser.create', compact('biodatapegawai'));;
+    }
+
     }
 
 
     public function show($training_id)
     {
         $trainings = Training::find($training_id);
-        return view('traininguser.show', compact('trainings')); 
+        return view('traininguser.show', compact('trainings'));
     }
 
 

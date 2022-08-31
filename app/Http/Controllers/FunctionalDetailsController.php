@@ -18,11 +18,11 @@ class FunctionalDetailsController extends Controller
 
     public function create(Request $request)
     {
-
+       $nipnik = $request->nip_nik;
        $biodatapegawai = User::pluck('real_name','nip_nik');
        $fungsionaldetail = Functional_Details::pluck('functional_id');
        $fungsional = Functional::pluck('information','functional_id');
-        return view('fungsionaldetail.create', compact('biodatapegawai','fungsional','fungsionaldetail'));
+        return view('fungsionaldetail.create', compact('nipnik','biodatapegawai','fungsional','fungsionaldetail'));
     }
 
 
@@ -41,24 +41,24 @@ class FunctionalDetailsController extends Controller
             'sk_no'=>$request->input('sk_no'),
             'sk_date'=>$request->input('sk_date'),
             'status'=>$request->input('status'),
-            'sk_file' => $request->sk_file->storeAs('sk_file_fungsional', $fileNamee,'public'),
+            'sk_file' => $request->sk_file->storeAs('sk_file', $fileNamee,'public'),
 
         ]);
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
     public function show($functional_id)
     {
         $fungsionaldetail = Functional_Details::find($functional_id);
-        return view('biodatapribadi.show', compact('fungsionaldetail'));
+        return view('fungsionaldetail.show', compact('fungsionaldetail'));
     }
 
 
     public function edit($functional_id)
     {
         $biodatapegawai = User::pluck('real_name','nip_nik');
-        $fungsionaldetail = Functional_Details::find('functional_id');
+        $fungsionaldetail = Functional_Details::find($functional_id);
         $fungsional = Functional::pluck('information','functional_id');
          return view('fungsionaldetail.edit', compact('biodatapegawai','fungsional','fungsionaldetail'));
     }
@@ -76,11 +76,10 @@ class FunctionalDetailsController extends Controller
             'sk_no'=>$request->sk_no,
             'sk_date'=>$request->sk_date,
             'status'=>$request->status,
-            'sk_file' => $request->sk_file->storeAs('sk_file', $fileName,'public'),
+            'sk_file' => $request->sk_file->storeAs('sk_file_fungsional', $fileName,'public'),
 
         ]);
-
-        return redirect()->route('fungsionaldetail.index');
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
@@ -89,7 +88,7 @@ class FunctionalDetailsController extends Controller
         $fungsionaldetail = Functional_Details::find($id);
         $fungsionaldetail->delete();
 
-        return redirect()->route('fungsionaldetail.index');
+        return redirect()->back();
     }
 
 

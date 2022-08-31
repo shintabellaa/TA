@@ -19,35 +19,38 @@
                             <tr>
                                 <th>Jabatan Struktural</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetails->structural->information  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>TMT</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetails->tmt  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Ditandatangani oleh</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetails->sign_by  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Nomor SK</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetails->sk_no  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Tanggal SK</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetails->sk_date  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Status</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetails->status  }}</td>
                             </tr>
-
-
+                            <tr>
+                                <th>File SK</th>
+                                <td>:</td>
+                                <td>{{ $strukturaldetails->sk_file  }}</td>
+                            </tr>
 
                         </table>
                     </div>

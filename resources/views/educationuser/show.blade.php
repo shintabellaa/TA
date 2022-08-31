@@ -8,7 +8,7 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{ $educationdetail->educationdetail_details_id}}
+                                {{ $educationdetail->education_id}}
                             </div>
                         </div>
                     </h5>
@@ -18,7 +18,7 @@
                             <tr>
                                 <th>Tingkat</th>
                                 <td>:</td>
-                                <td>{{ $educationdetail->$education->level}}</td>
+                                <td>{{ $educationdetail->education->level}}</td>
                             </tr>
                             <tr>
                                 <th>Nama Sekolah</th>

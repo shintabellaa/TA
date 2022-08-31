@@ -15,7 +15,11 @@
                     </h5>
                     <div class="card-body">
                         <table class="table table-responsive">
-
+                            <tr>
+                                <th>Nama Unit</th>
+                                <td>:</td>
+                                <td>{{ $employee_transfer->work_unit->name}}</td>
+                            </tr>
                             <tr>
                                 <th>Tanggal Mutasi</th>
                                 <td>:</td>
@@ -36,12 +40,8 @@
                                 <td>:</td>
                                 <td>{{ $employee_transfer->sk_file}}</td>
                             </tr>
-                            <tr>
-                                <th>Status</th>
-                                <td>:</td>
-                                <td>{{ $employee_transfer->status }}</td>
-                            </tr>
-                            
+                
+
 
                         </table>
                     </div>

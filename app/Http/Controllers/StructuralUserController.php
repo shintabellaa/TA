@@ -28,6 +28,10 @@ class StructuralUserController extends Controller
 
     public function store(Request $request)
     {
+
+        $extension = $request->sk_file->extension();
+        if ($extension == "pdf"){
+
         $fileName = $request->file('sk_file')->getClientOriginalName();
         $strukturaldetails= Structural_Details::create([
             'structural_id'=>$request->input('structural_id'),
@@ -38,9 +42,17 @@ class StructuralUserController extends Controller
             'sk_date'=>$request->input('sk_date'),
             'status'=>$request->input('status'),
             // 'sk_file'=>$request->input('sk_file'),
-            'sk_file' => $request->file('sk_file')->storeAs('sk_file', $fileName,'public'),
+            'sk_file' => $request->file('sk_file')->storeAs('sk_file_struktural', $fileName,'public'),
         ]);
         return redirect('/profildiri');
+    }
+    else{
+        echo "<script>alert('ekstensi file salah')</script>";
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $struktural = Structural::pluck('information','structural_id');
+        return view('strukturaluser.create', compact('biodatapegawai', 'struktural'));
+    }
+
     }
 
 
@@ -65,23 +77,24 @@ class StructuralUserController extends Controller
 
     public function update(Request $request, $structural_id)
     {
-        $strukturaldetails = Structural_Details::find($structural_id);
-        $strukturaldetails->update([
-            // 'structural_id'=>$request->structural_id,
+        $fileName = $request->file('sk_file')->getClientOriginalName();
+        $strukturaldetails= Structural_Details::create([
+            // 'structural_id'=>$request->input('structural_id'),
             'nip_nik'=>$request->input('nip_nik'),
             'tmt'=>$request->input('tmt'),
             'sign_by'=>$request->input('sign_by'),
             'sk_no'=>$request->input('sk_no'),
             'sk_date'=>$request->input('sk_date'),
             'status'=>$request->input('status'),
-            'sk_file'=>$request->input('sk_file'),
+            // 'sk_file'=>$request->input('sk_file'),
+            'sk_file' => $request->file('sk_file')->storeAs('sk_file', $fileName,'public'),
         ]);
         return redirect()->route('strukturaluser.index');
     }
 
     public function destroy($id)
     {
-        $strukturaldetails = Structural::find($id);
+        $strukturaldetails = Structural_Details::find($id);
         $strukturaldetails->delete();
         return redirect()->route('profildiri.index');
     }

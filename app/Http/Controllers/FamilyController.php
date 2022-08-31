@@ -42,11 +42,8 @@ class FamilyController extends Controller
             'occupation'=>$request->occupation,
             'last_education'=>$request->last_education,
             'npwp_no'=>$request->npwp_no,
-
-
         ]);
-
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
@@ -82,8 +79,7 @@ class FamilyController extends Controller
             'last_education'=>$request->last_education,
             'npwp_no'=>$request->npwp_no,
         ]);
-
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
 
     }
 
@@ -92,6 +88,6 @@ class FamilyController extends Controller
         $biodatakeluarga = Family::find($id);
         $biodatakeluarga->delete();
 
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->back();
     }
 }

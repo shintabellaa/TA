@@ -40,27 +40,30 @@ class StructuralDetailsController extends Controller
             // 'sk_file'=>$request->input('sk_file'),
             'sk_file' => $request->file('sk_file')->storeAs('sk_file_struktural', $fileName,'public'),
         ]);
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
     public function show($id)
     {
         $strukturaldetail = Structural_Details::find($id);
+
         return view('strukturaldetail.show', compact('strukturaldetail'));
     }
 
 
-    public function edit($id)
+    public function edit($structural_id)
     {
+        $biodatapegawai = User::pluck('real_name','nip_nik');
         $struktural = Structural::pluck('information','structural_id');
-        $strukturaldetail = Structural_Details::pluck('nip_nik','tmt','sign_by','sk_no','sk_date','status','sk_file','structural_id');;
-        return view('strukturaldetail.edit', compact('strukturaldetail','struktural'));
+        $strukturaldetail = Structural_Details::find($structural_id);
+        return view('strukturaldetail.edit', compact('biodatapegawai','strukturaldetail','struktural'));
     }
 
 
     public function update(Request $request, $structural_id)
     {
+        $fileName = $request->file('sk_file')->getClientOriginalName();
         $strukturaldetail = Structural_Details::find($structural_id);
         $strukturaldetail->update([
             'nip_nik'=>$request->input('nip_nik'),
@@ -69,15 +72,16 @@ class StructuralDetailsController extends Controller
             'sk_no'=>$request->input('sk_no'),
             'sk_date'=>$request->input('sk_date'),
             'status'=>$request->input('status'),
-            'sk_file'=>$request->input('sk_file'),
+            // 'sk_file'=>$request->input('sk_file'),
+            'sk_file' => $request->file('sk_file')->storeAs('sk_file_struktural', $fileName,'public'),
         ]);
-        return redirect()->route('strukturaldetail.index');
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
     public function destroy($id)
     {
         $strukturaldetail = Structural_Details::find($id);
         $strukturaldetail->delete();
-        return redirect()->route('strukturaldetail.index');
+        return redirect()->back();
     }
 }

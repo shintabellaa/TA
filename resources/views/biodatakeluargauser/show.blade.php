@@ -28,7 +28,7 @@
                             <tr>
                                 <th>No HP</th>
                                 <td>:</td>
-                                <td>{{ $biodatakeluarga->phone_no}}</td>
+                                <td>{{ $biodatakeluarga->phone_number}}</td>
                             </tr>
                             <tr>
                                 <th>Tempat Lahir</th>
@@ -39,11 +39,6 @@
                                 <th>Tanggal Lahir</th>
                                 <td>:</td>
                                 <td>{{ $biodatakeluarga->birth_date}}</td>
-                            </tr>
-                            <tr>
-                                <th>Status</th>
-                                <td>:</td>
-                                <td>{{ $biodatakeluarga->status}}</td>
                             </tr>
                             <tr>
                                 <th>Pekerjaan</th>

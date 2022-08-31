@@ -5,7 +5,8 @@
             <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!}
+            {!!  auth()->user()->real_name !!}
+            {{-- {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!} --}}
         </div>
     </div>
 </div>
@@ -87,7 +88,7 @@
             <label for="sk_file" class="col-form-label">File SK</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::file('sk_file', null, ['class' => 'form-control', 'placeholder'=>'File SK']) !!}
+            {!! Form::file('sk_file', ['class' => 'form-control', 'accept'=>'application/pdf', 'placeholder'=>'File SK']) !!}
         </div>
     </div>
 </div>

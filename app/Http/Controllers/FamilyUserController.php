@@ -31,6 +31,8 @@ class FamilyUserController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
+
+      
         Family::create([
             'id_number' => $request->id_number,
             'nip_nik' => $request->nip_nik,
@@ -58,10 +60,12 @@ class FamilyUserController extends Controller
     }
 
 
-    public function edit()
+    public function edit($id_number)
     {
-        $biodatakeluarga = Family::find($id);
-        return view('biodatakeluargauser.edit', compact('biodatakeluarga'));
+        $biodatakeluarga = Family::find($id_number);
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $education = Education::pluck('level','education_id');
+        return view('biodatakeluargauser.edit', compact('education','biodatapegawai','biodatakeluarga'));
     }
 
 
@@ -70,10 +74,10 @@ class FamilyUserController extends Controller
         $biodatakeluarga = Family::find($id);
         $biodatakeluarga->update([
             'id_number' => $request->id_number,
-            'nip/nik' => $request->nip/nik,
+            'nip_nik' => $request->nip_nik,
             'name' => $request->name,
             'relationship'=>$request->relationship,
-            'phone_no'=>$request->phone_no,
+            'phone_number'=>$request->phone_number,
             'birth_date'=>$request->birth_date,
             'birth_place'=>$request->birth_place,
             'occupation'=>$request->occupation,
@@ -81,7 +85,7 @@ class FamilyUserController extends Controller
             'npwp_no'=>$request->npwp_no,
         ]);
 
-        return redirect()->route('biodatakeluargauser._form');
+        return redirect()->route('profildiri.index');
     }
 
     public function destroy($id)

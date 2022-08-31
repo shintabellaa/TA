@@ -136,16 +136,16 @@
 
 
 {{-- education --}}
-    <div class="fade-in">
+<div class="fade-in">
       <div class="row">
         <div class="col-lg-12">
             <div class="card">
                 <h5>
                     <div class="card-header">
                         <div class="d-flex">
-                            {{-- rubah href mulai --}}
-                            <a href="{{ route('educationdetail.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Pendidikan</a>
-                            {{-- rubah href seleai --}}
+                        Riwayat Pendidikan
+                            {{-- <a href="{{ route('educationdetail.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Pendidikan</a> --}}
+
                         </div>
                     </div>
                 </h5>
@@ -210,8 +210,8 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-
-                                <a href="{{ route('fungsionaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Jabatan Fungsional</a>
+                                Riwayat Jabatan Fungsional
+                                {{-- <a href="{{ route('fungsionaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Jabatan Fungsional</a> --}}
 
                             </div>
                         </div>
@@ -266,6 +266,69 @@
 
 
 
+{{-- Struktural --}}
+<div class="fade-in">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <h5>
+                    <div class="card-header">
+                        <div class="d-flex">
+                            Riwayat Jabatan Struktural
+                            {{-- <a href="{{ route('strukturaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Jabatan Struktural</a> --}}
+                           </div>
+                    </div>
+                </h5>
+                <div class="card-body">
+                    <table class="table table-responsive-sm table-striped">
+                        <thead>
+
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Jabatan Struktural</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @foreach ($biodatapegawai->structural_details as $strukturaldetails)
+                                <tr>
+                                    <td class="text-center">{{ $loop->iteration }}</td>
+                                    <td class="text-center">{{ $strukturaldetails->structural->information}}</td>
+                                    <td class="text-center">{{ $strukturaldetails->status}}</td>
+                                    <td class="text-center">
+                                        <a href="{{ route('strukturaldetail.show',$strukturaldetails->structural_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
+                                            <i class="cil-zoom-in"></i>
+                                        </a>
+                                        <a href="{{ route('strukturaldetail.edit',$strukturaldetails->structural_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
+                                            <i class="cil-pencil"></i>
+                                        </a>
+
+                                        <form
+                                        action="{{ route('strukturaldetail.destroy', $strukturaldetails->structural_id) }}"
+                                        method="post" onclick="return confirm('Anda yakin menghapus data ?')"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-youtube">
+                                            <i class="cil-trash"></i>
+                                        </button>
+                                    </form>
+
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- end struktural --}}
+
+
 {{-- Mutasi --}}
     <div class="fade-in">
         <div class="row">
@@ -274,10 +337,10 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{-- rubah href mulai --}}
-                                <a href="{{ route('mutasi.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Mutasi</a>
-                                {{-- rubah href seleai --}}
-                            </div>
+
+                                Riwayat Mutasi
+                                {{-- <a href="{{ route('mutasi.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Mutasi</a> --}}
+                             </div>
                         </div>
                     </h5>
                     <div class="card-body">
@@ -286,8 +349,8 @@
                                 {{-- rubah mulai --}}
                                 <tr>
                                     <th class="text-center">No</th>
-                                    <th class="text-center">Tanggal Mutasi</th>
                                     <th class="text-center">Unit Kerja</th>
+                                    <th class="text-center">Tanggal Mutasi</th>
                                     <th class="text-center">Aksi</th>
                                 </tr>
                                 {{-- rubah selesai --}}
@@ -296,8 +359,8 @@
                                 @foreach ($biodatapegawai->employee_transfer as $employee_transfers)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ $employee_transfers->employee_transfer_date}}</td>
                                         <td class="text-center">{{ $employee_transfers->work_unit->name}}</td>
+                                        <td class="text-center">{{ $employee_transfers->employee_transfer_date}}</td>
 
                                         <td class="text-center">
                                             <a href="{{ route('mutasi.show',$employee_transfers->employee_transfer_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
@@ -339,7 +402,8 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                <a href="{{ route('training.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Diklat</a>
+                                Riwayat Diklat
+                                {{-- <a href="{{ route('training.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Diklat</a> --}}
                             </div>
                         </div>
                     </h5>
@@ -394,68 +458,6 @@
 
 
 
-{{-- Struktural --}}
-    <div class="fade-in">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <h5>
-                        <div class="card-header">
-                            <div class="d-flex">
-                                {{-- rubah href mulai --}}
-                                <a href="{{ route('strukturaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Jabatan Struktural</a>
-                                {{-- rubah href seleai --}}
-                            </div>
-                        </div>
-                    </h5>
-                    <div class="card-body">
-                        <table class="table table-responsive-sm table-striped">
-                            <thead>
-
-                                <tr>
-                                    <th class="text-center">No</th>
-                                    <th class="text-center">Jabatan Struktural</th>
-                                    <th class="text-center">Status</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-
-                            </thead>
-                            <tbody>
-                                @foreach ($biodatapegawai->structural_details as $strukturaldetails)
-                                    <tr>
-                                        <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ $strukturaldetails->structural->information}}</td>
-                                        <td class="text-center">{{ $strukturaldetails->status}}</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('strukturaldetail.show',$strukturaldetails->structural_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
-                                                <i class="cil-zoom-in"></i>
-                                            </a>
-                                            <a href="{{ route('strukturaldetail.edit',$strukturaldetails->structural_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
-                                                <i class="cil-pencil"></i>
-                                            </a>
-
-                                            <form
-                                            action="{{ route('strukturaldetail.destroy', $strukturaldetails->structural_id) }}"
-                                            method="post" onclick="return confirm('Anda yakin menghapus data ?')"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button class="btn btn-youtube">
-                                                <i class="cil-trash"></i>
-                                            </button>
-                                        </form>
-
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-{{-- end struktural --}}
 
 
 
@@ -467,9 +469,9 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{-- rubah href mulai --}}
-                                <a href="{{ route('pangkatgolongan.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Pangkat Golongan</a>
-                                {{-- rubah href seleai --}}
+                                Riwayat Pangkat Golongan
+                                {{-- <a href="{{ route('pangkatgolongan.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Pangkat Golongan</a> --}}
+
                             </div>
                         </div>
                     </h5>
@@ -481,7 +483,6 @@
                                     <th class="text-center">No</th>
                                     <th class="text-center">Pangkat Golongan</th>
                                     <th class="text-center">Status</th>
-                                    <th class="text-center">File SK</th>
                                     <th class="text-center">Aksi</th>
 
                                 </tr>
@@ -493,8 +494,7 @@
                                         <td class="text-center">{{ $loop->iteration}}</td>
                                         <td class="text-center">{{ $pangkatgolongans->name  }}</td>
                                         <td class="text-center">{{ $pangkatgolongans->status}}</td>
-                                        <td class="text-center">{{ $pangkatgolongans->sk_file}}</td>
-
+                                       
                                         <td class="text-center">
                                             <a href="{{ route('pangkatgolongan.show',$pangkatgolongans->rank_group_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
                                                 <i class="cil-zoom-in"></i>
@@ -536,10 +536,9 @@
                 <h5>
                     <div class="card-header">
                         <div class="d-flex">
-                            {{-- rubah href mulai --}}
-                            <a href="{{ route('biodatakeluarga.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Biodata Keluarga</a>
-                            {{-- rubah href seleai --}}
-                        </div>
+                            Data Keluarga
+                            {{-- <a href="{{ route('biodatakeluarga.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Biodata Keluarga</a> --}}
+                            </div>
                     </div>
                 </h5>
                 <div class="card-body">

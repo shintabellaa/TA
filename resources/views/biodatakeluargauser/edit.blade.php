@@ -11,7 +11,7 @@
                             ubah route
                             bagian $training, bagian route, dan bagian training->training_id
                         --}}
-                        {{ Form::model($biodatakeluarga, array('method' => 'PATCH', 'url' => route('biodatakeluargauser.update', $biodatakeluargauser->id_number), 'files' => true)) }}
+                        {{ Form::model($biodatakeluarga, array('method' => 'PATCH', 'url' => route('biodatakeluargauser.update', $biodatakeluarga->id_number), 'files' => true)) }}
                             @include('biodatakeluargauser._form')
                             <div>
                                 <button type="submit" class="btn btn-primary"><span class="cil-save btn-icon mr-2"></span>Simpan</button>

@@ -32,26 +32,37 @@ class FunctionalUserController extends Controller
         // dd( $request->sk_file->getClientOriginalName());
         // dd($request->all());
 
-        $fileNamee = $request->sk_file->getClientOriginalName();
-        $fungsionaldetails= Functional_Details::create([
-            'functional_id'=>$request->input('functional_id'),
-            'nip_nik'=>$request->input('nip_nik'),
-            'tmt'=>$request->input('tmt'),
-            'sign_by'=>$request->input('sign_by'),
-            'sk_no'=>$request->input('sk_no'),
-            'sk_date'=>$request->input('sk_date'),
-            'status'=>$request->input('status'),
-            'sk_file' => $request->sk_file->storeAs('sk_file', $fileNamee,'public'),
+        $extension = $request->sk_file->extension();
+        if ($extension == "pdf"){
+            
+            $fileNamee = $request->sk_file->getClientOriginalName();
+            $fungsionaldetails= Functional_Details::create([
+                'functional_id'=>$request->input('functional_id'),
+                'nip_nik'=>$request->input('nip_nik'),
+                'tmt'=>$request->input('tmt'),
+                'sign_by'=>$request->input('sign_by'),
+                'sk_no'=>$request->input('sk_no'),
+                'sk_date'=>$request->input('sk_date'),
+                'status'=>$request->input('status'),
+                'sk_file' => $request->sk_file->storeAs('sk_file_fungsional', $fileNamee,'public'),
+            ]);
+            return redirect('/profildiri');
+        }
+        else{
+            echo "<script>alert('ekstensi file salah')</script>";
+            $biodatapegawai = User::pluck('real_name','nip_nik');
+            $fungsionaldetails = Functional_Details::pluck('functional_id');
+            $fungsional = Functional::pluck('information','functional_id');
+            return view('fungsionaluser.create', compact('biodatapegawai','fungsional','fungsionaldetails'));
+        }
 
-        ]);
-        return redirect('/profildiri');
     }
 
 
     public function show($functional_id)
     {
         $fungsionaldetails= Functional_Details::find($functional_id);
-        return view('biodatapribadi.show', compact('fungsionaldetails'));
+        return view('fungsionaluser.show', compact('fungsionaldetails'));
     }
 
 
@@ -86,7 +97,7 @@ class FunctionalUserController extends Controller
 
     public function destroy($id)
     {
-        $fungsionaldetails = Functional::find($id);
+        $fungsionaldetails = Functional_Details::find($id);
         $fungsionaldetails->delete();
 
         return redirect()->route('profildiri.index');

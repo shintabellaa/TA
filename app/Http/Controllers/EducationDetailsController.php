@@ -45,7 +45,8 @@ class EducationDetailsController extends Controller
             'certificate_file' => $request->certificate_file->storeAs('certificate_file', $fileName,'public'),
 
         ]);
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
@@ -83,7 +84,8 @@ class EducationDetailsController extends Controller
             'certificate_file' => $request->certificate_file->storeAs('certificate_file', $fileName,'public'),
         ]);
 
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        // return redirect()->route('biodatapegawai.index',['nip_nik']);
     }
 
 

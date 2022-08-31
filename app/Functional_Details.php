@@ -8,7 +8,7 @@ use Alfa6661\AutoNumber\AutoNumberTrait;
 class Functional_Details extends Model
 {
     protected $table = 'functional_details';
-    protected $primaryKey = ['nip_nik','functional_id'];
+    protected $primaryKey = 'functional_id';
     public $incrementing = false;
     protected $fillable = ['nip_nik', 'functional_id', 'tmt', 'sign_by','sk_no','sk_date','status', 'sk_file', ];
     public $timestamps = false;

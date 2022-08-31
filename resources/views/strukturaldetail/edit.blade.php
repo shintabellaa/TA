@@ -7,7 +7,7 @@
             <div class="col-lg-12">
                 <div class="card">
                      <div class="card-body">
-                        {{ Form::model($strukturaldetail, array('method' => 'PATCH', 'url' => route('strukturaldetail.update', $strukturaldetail ->structural_id), 'files' => true)) }}
+                        {{ Form::model($strukturaldetail, array('method' => 'PATCH', 'url' => route('strukturaldetail.update', $strukturaldetail->structural_id), 'files' => true)) }}
                             @include('strukturaldetail._form')
                             <div>
                                 <button type="submit" class="btn btn-primary"><span class="cil-save btn-icon mr-2"></span>Simpan</button>

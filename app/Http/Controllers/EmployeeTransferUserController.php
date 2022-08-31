@@ -39,7 +39,7 @@ class EmployeeTransferUserController extends Controller
             'sign_by' => $request->sign_by,
             'sk_file' => $request->sk_file->storeAs('sk_file_mutasi', $fileNamee,'public'),
         ]);
-        return redirect('/profildiri');
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
@@ -69,10 +69,9 @@ class EmployeeTransferUserController extends Controller
             'employee_transfer_date' => $request->employee_transfer_date,
             'sk_no' => $request->sk_no,
             'sign_by' => $request->sign_by,
-            'sk_file' => $request->sk_file,
+            'sk_file' => $request->sk_file->storeAs('sk_file_mutasi', $fileNamee,'public'),
         ]);
-
-        return redirect()->route('mutasiuser.index');
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 

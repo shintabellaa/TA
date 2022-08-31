@@ -39,7 +39,7 @@ class EmployeeTransferController extends Controller
             'sign_by' => $request->sign_by,
             'sk_file' => $request->sk_file->storeAs('sk_file_mutasi', $fileNamee,'public'),
         ]);
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
@@ -62,17 +62,18 @@ class EmployeeTransferController extends Controller
 
     public function update( Request $request, $employee_transfer_id)
     {
+        $fileNamee = $request->sk_file->getClientOriginalName();
         $employee_transfer= Employee_Transfer::find($employee_transfer_id);
         $employee_transfer->update([
-
+            // 'employee_transfer_id' => $request->employee_transfer_id,
+            'work_unit_id' => $request->work_unit_id,
             'nip_nik' => $request->nip_nik,
             'employee_transfer_date' => $request->employee_transfer_date,
             'sk_no' => $request->sk_no,
             'sign_by' => $request->sign_by,
-            'sk_file' => $request->sk_file,
+            'sk_file' => $request->sk_file->storeAs('sk_file_mutasi', $fileNamee,'public'),
         ]);
-
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 

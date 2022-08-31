@@ -35,7 +35,7 @@
                                 @foreach ($fungsionaldetail as $fungsionaldetails)
                                     <tr>
                                         <td class="text-center">{{ $loop->iteration }}</td>
-                                        <td class="text-center">{{ $fungsionaldetails->fungsional->information}}</td>
+                                        <td class="text-center">{{ $fungsionaldetails->functional->information}}</td>
                                         <td class="text-center">{{ $fungsionaldetails->tmt}}</td>
                                         <td class="text-center">{{ $fungsionaldetails->sk_no}}</td>
                                         <td class="text-center">{{ $fungsionaldetails->status}}</td>

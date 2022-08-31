@@ -7,10 +7,6 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        {{--
-                            ubah route
-                            bagian $work_unit, bagian route, dan bagian work_unit->work_unit_id
-                        --}}
                         {{ Form::model($pangkatgolongan, array('method' => 'PATCH', 'url' => route('pangkatgolongan.update', $pangkatgolongan->rank_group_id), 'files' => true)) }}
                             @include('pangkatgolongan._form')
                             <div>

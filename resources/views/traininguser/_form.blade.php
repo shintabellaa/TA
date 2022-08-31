@@ -1,4 +1,19 @@
- {{-- form copy akhir --}}
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-3">
+            <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
+        </div>
+        <div class="col-lg-9">
+            {!!  auth()->user()->real_name !!}
+            {{-- {!! Form::select('nip_nik',$biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!} --}}
+        </div>
+
+
+    </div>
+</div>
+
+
 <div class="form-group">
     <div class="row">
         <div class="col-lg-3">
@@ -10,20 +25,6 @@
     </div>
 </div>
 
-
-
-<div class="form-group">
-    <div class="row">
-        <div class="col-lg-3">
-            <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
-        </div>
-        <div class="col-lg-9">
-            {!! Form::select('nip_nik',$biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!}
-        </div>
-
-
-    </div>
-</div>
 
 
 <div class="form-group">
@@ -79,7 +80,9 @@
             <label for="certificate_file" class="col-form-label">Sertifikat</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::file('certificate_file', null, ['class' => 'form-control', 'placeholder'=>'Sertifikat']) !!}
+            {{-- {!! Form::file('certificate_file', null, ['class' => 'form-control', 'placeholder'=>'Sertifikat']) !!} --}}
+            {!! Form::file('certificate_file',  ['class' => 'form-control', 'accept'=>'application/pdf', 'placeholder'=>'File Ijazah']) !!}
+
         </div>
     </div>
 </div>

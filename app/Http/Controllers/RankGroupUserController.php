@@ -22,12 +22,15 @@ class RankGroupUserController extends Controller
         $biodatapegawai = User::pluck('real_name','nip_nik');
         $pangkatgolongan = Rank_Group::all();
         return view('pangkatgolonganuser.create', compact('biodatapegawai','pangkatgolongan'));
-        return view ('pangkatgolonganuser.create');
     }
 
     public function store(Request $request)
     {
-        // $fileName = $request->sk_file->getClientOriginalName();
+
+        $extension = $request->sk_file->extension();
+        if ($extension == "pdf"){
+
+        $fileName = $request->file('sk_file')->getClientOriginalName();
         $pangkatgolongan = Rank_Group::create([
             'nip_nik' =>$request->nip_nik,
             'name'=>$request->name,
@@ -36,9 +39,16 @@ class RankGroupUserController extends Controller
             'sk_date'=>$request->sk_date,
             'sign_by'=>$request->sign_by,
             'status'=>$request->status,
-            'sk_file' => $request->sk_file,
+            'sk_file' => $request->file('sk_file')->storeAs('sk_file_rankgroup', $fileName,'public'),
         ]);
         return redirect('/profildiri');
+    }
+    else{
+        echo "<script>alert('ekstensi file salah')</script>";
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $pangkatgolongan = Rank_Group::all();
+        return view('pangkatgolonganuser.create', compact('biodatapegawai','pangkatgolongan'));
+    }
     }
 
 
@@ -69,7 +79,7 @@ class RankGroupUserController extends Controller
             'decided_by'=>$request->input('decided_by'),
             'basic_rules'=>$request->input('basic_rules'),
             // 'sk_file'=>$request->input('sk_file'),
-            'sk_file' => $request->sk_file->storeAs('sk_file', $fileName,'public'),
+            'sk_file' => $request->sk_file->storeAs('certificate_file', $fileName,'public'),
 
         ]);
         return redirect()->route('pangkatgolonganuser.index');

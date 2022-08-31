@@ -9,7 +9,7 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{ $fungsionaldetail->functional_id }}
+                                {{ $fungsionaldetails->functional_id }}
                             </div>
                         </div>
                     </h5>
@@ -18,37 +18,37 @@
                            <tr>
                                 <th>NIP/NIK</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetail->nip_nik }}</td>
+                                <td>{{ $fungsionaldetails->nip_nik }}</td>
                             </tr>
                             <tr>
                                 <th>TMT</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetail->tmt}}</td>
+                                <td>{{ $fungsionaldetails->tmt}}</td>
                             </tr>
                             <tr>
                                 <th>Diputuskan Oleh</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetail->sign_by}}</td>
+                                <td>{{ $fungsionaldetails->sign_by}}</td>
                             </tr>
                             <tr>
                                 <th>No SK</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetail->sk_no }}</td>
+                                <td>{{ $fungsionaldetails->sk_no }}</td>
                             </tr>
                             <tr>
                                 <th>Tanggal SK</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetail->sk_date}}</td>
+                                <td>{{ $fungsionaldetails->sk_date}}</td>
                             </tr>
                             <tr>
                                 <th>Status</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetail->status }}</td>
+                                <td>{{ $fungsionaldetails->status }}</td>
                             </tr>
                             <tr>
                                 <th>File SK</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetail->sk_file}}</td>
+                                <td>{{ $fungsionaldetails->sk_file}}</td>
                             </tr>
 
                         </table>

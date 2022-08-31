@@ -9,42 +9,46 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{ $strukturaldetails->information }}
+                                {{ $strukturaldetail->structural_id }}
                             </div>
                         </div>
                     </h5>
                     <div class="card-body">
                         <table class="table table-responsive">
-
                             <tr>
                                 <th>Jabatan Struktural</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetail->structural->information  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>TMT</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetail->tmt  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Ditandatangani oleh</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetail->sign_by  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Nomor SK</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetail->sk_no  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Tanggal SK</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetail->sk_date  }}</td>
                             </tr>
                             <tr>
-                                <th>Jabatan Struktural</th>
+                                <th>Status</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->information  }}</td>
+                                <td>{{ $strukturaldetail->status  }}</td>
+                            </tr>
+                            <tr>
+                                <th>File SK</th>
+                                <td>:</td>
+                                <td>{{ $strukturaldetail->sk_file  }}</td>
                             </tr>
 
 

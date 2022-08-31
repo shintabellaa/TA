@@ -4,11 +4,11 @@
             <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!}
+            {!!  auth()->user()->real_name !!}
         </div>
     </div>
 </div>
-<div class="form-group"> 
+<div class="form-group">
     <div class="row">
         <div class="col-lg-3">
             <label for="education_id" class="col-form-label">Tingkat</label>
@@ -87,7 +87,9 @@
             <label for="certificate_file" class="col-form-label">File Ijazah</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::file('certificate_file', null, ['class' => 'form-control', 'placeholder'=>'File Ijazah']) !!}
+            {{-- {!! Form::file('certificate_file', null, ['class' => 'form-control', 'placeholder'=>'File Ijazah']) !!} --}}
+            {!! Form::file('certificate_file',  ['class' => 'form-control', 'accept'=>'application/pdf', 'placeholder'=>'File Ijazah']) !!}
+
         </div>
     </div>
 </div>

@@ -32,6 +32,11 @@ class EducationUserController extends Controller
     {
         // dd($request->all());
         // dd( $request->sk_file->getClientOriginalName());
+
+
+        $extension = $request->certificate_file->extension();
+        if ($extension == "pdf"){
+
         $fileName = $request->certificate_file->getClientOriginalName();
         $educationdetail= Education_Details::create([
             'education_details_id'=>$request->input('education_details_id'),
@@ -46,6 +51,15 @@ class EducationUserController extends Controller
 
         ]);
         return redirect('/profildiri');
+    }
+    else{
+        echo "<script>alert('ekstensi file salah')</script>";
+        $nipnik = $request->nip_nik;
+        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $education = Education::pluck('level','education_id');
+
+        return view('educationuser.create', compact('nipnik','education','biodatapegawai'));
+    }
     }
 
 

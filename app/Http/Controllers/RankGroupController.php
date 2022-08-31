@@ -22,23 +22,24 @@ class RankGroupController extends Controller
         $biodatapegawai = User::pluck('real_name','nip_nik');
         $pangkatgolongan = Rank_Group::all();
         return view('pangkatgolongan.create', compact('biodatapegawai','pangkatgolongan'));
-        return view ('pangkatgolongan.create');
+
     }
 
     public function store(Request $request)
     {
-        // $fileName = $request->sk_file->getClientOriginalName();
+        // $fileName = $request->file('sk_file')->getClientOriginalName();
         $pangkatgolongan = Rank_Group::create([
-            'nip_nik' =>$request->nip_nik,
-            'name'=>$request->name,
-            'tmt' => $request->tmt,
-            'sk_no' => $request->sk_no,
-            'sk_date'=>$request->sk_date,
-            'sign_by'=>$request->sign_by,
-            'status'=>$request->status,
-            'sk_file' => $request->sk_file,
+            'nip_nik' =>$request->input('nip_nik'),
+            'name'=>$request->input('name'),
+            'tmt' => $request->input('tmt'),
+            'sk_no' => $request->input('sk_no'),
+            'sk_date'=>$request->input('sk_date'),
+            'sign_by'=>$request->input('sign_by'),
+            'status'=>$request->input('status'),
+            'sk_file' => $request->input('sk_file'),
+            // 'sk_file' => $request->file('sk_file')->storeAs('sk_file', $fileName,'public'),
         ]);
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
 
 
@@ -49,31 +50,32 @@ class RankGroupController extends Controller
     }
 
 
-    public function edit($id)
+    public function edit($rank_group_id)
     {
         $biodatapegawai = User::pluck('real_name','nip_nik');
-        $pangkatgolongan = Rank_Group::find($id);
+        $pangkatgolongan = Rank_Group::find($rank_group_id);
         return view('pangkatgolongan.edit', compact('pangkatgolongan','biodatapegawai'));
     }
 
 
-    public function update(Request $request,$id)
+    public function update(Request $request,$rank_group_id)
     {
-        $pangkatgolongan = Rank_Group::find($id);
+        // dd($request->all());
+        $fileName = $request->file('sk_file')->getClientOriginalName();
+        $pangkatgolongan = Rank_Group::find($rank_group_id);
         $pangkatgolongan->update([
-            // 'nip/nik' =>$request->nip_nik,
-            'tmt' => $request->tmt,
-            'sk_no' => $request->sk_no,
-            'sk_date'=>$request->sk_date,
-            'decided_by'=>$request->decided_by,
-            'basic_rules'=>$request->basic_rules,
-            'sk_file'=>$request->sk_file,
-
+            'nip_nik' =>$request->input('nip_nik'),
+            'name'=>$request->input('name'),
+            'tmt' => $request->input('tmt'),
+            'sk_no' => $request->input('sk_no'),
+            'sk_date'=>$request->input('sk_date'),
+            'sign_by'=>$request->input('sign_by'),
+            'status'=>$request->input('status'),
+            // 'sk_file'=>$request->input('sk_file'),
+            'sk_file' => $request->file('sk_file')->storeAs('sk_file_rankgroup', $fileName,'public'),
         ]);
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
     }
-
-
 
     public function destroy($id)
     {

@@ -38,7 +38,7 @@
                             <tr>
                                 <th>Sertifikat</th>
                                 <td>:</td>
-                                <td>{{ $trainings->file_certificate }}</td>
+                                <td>{{ $trainings->certificate_file}}</td>
                             </tr>
                         </table>
                     </div>

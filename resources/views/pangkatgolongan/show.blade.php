@@ -22,12 +22,30 @@
                                 <td>{{ $pangkatgolongan->name}}</td>
                             </tr>
                             <tr>
-                                <th>Status</th>
+                                <th>TMT</th>
                                 <td>:</td>
-                                <td>{{ $pangkatgolongan->status}}</td>
+                                <td>{{ $pangkatgolongan->tmt}}</td>
                             </tr>
-                            
-
+                            <tr>
+                                <th>Nomor SK</th>
+                                <td>:</td>
+                                <td>{{ $pangkatgolongan->sk_no}}</td>
+                            </tr>
+                            <tr>
+                                <th>Tanggal SK</th>
+                                <td>:</td>
+                                <td>{{ $pangkatgolongan->sk_date}}</td>
+                            </tr>
+                            <tr>
+                                <th>Diputuskan oleh</th>
+                                <td>:</td>
+                                <td>{{ $pangkatgolongan->sign_by}}</td>
+                            </tr>
+                            <tr>
+                                <th>File SK</th>
+                                <td>:</td>
+                                <td>{{ $pangkatgolongan->sk_file}}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
