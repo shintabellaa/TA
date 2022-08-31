@@ -5,8 +5,8 @@
             <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
         </div>
         <div class="col-lg-9">
-            {!!  auth()->user()->real_name !!}
-            {{-- {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!} --}}
+            {{-- {!!  auth()->user()->real_name !!} --}}
+            {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!}
         </div>
     </div>
 </div>
