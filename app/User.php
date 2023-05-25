@@ -69,21 +69,6 @@ class User extends Authenticatable
         return "https://uxwing.com/wp-content/themes/uxwing/download/12-people-gesture/avatar.png";
     }
 
-
-
-
-
-    // use AutoNumberTrait;
-    // public function getAutoNumberOptions()
-    // {
-    //     return [
-    //         'functional_id' => [
-    //             'format' => 'FUNG-?', // Format kode yang akan digunakan.
-    //             'length' => 3 // Jumlah digit yang akan digunakan sebagai nomor urut
-    //         ]
-    //     ];
-    // }
-
     protected $hidden = [
         'password', 'remember_token',
     ];

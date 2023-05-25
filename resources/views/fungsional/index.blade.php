@@ -1,6 +1,41 @@
 @extends('layouts.myApp')
 
 @section('content')
+@if ($message = Session::get('success'))
+      <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($message = Session::get('error'))
+      <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($message = Session::get('warning'))
+      <div class="alert alert-warning alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+    </div>
+    @endif
+
+    @if ($message = Session::get('info'))
+      <div class="alert alert-info alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        Please check the form below for errors
+    </div>
+    @endif
+
 <div class="container-fluid">
     <div class="fade-in">
         <div class="row">
@@ -35,7 +70,7 @@
 
                                         <td class="text-center">
                                             <a href="{{ route('fungsional.show',$fungsionals->functional_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
-                                                <i class="cil-zoom-in"></i> 
+                                                <i class="cil-zoom-in"></i>
                                             </a>
                                             <a href="{{ route('fungsional.edit',$fungsionals->functional_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
                                                 <i class="cil-pencil"></i>

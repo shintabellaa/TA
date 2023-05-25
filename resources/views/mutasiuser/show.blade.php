@@ -9,7 +9,7 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{ $employee_transfer->employee_transfer_id }}
+                                {{ $employee_transfer->work_unit->name }}
                             </div>
                         </div>
                     </h5>
@@ -34,13 +34,10 @@
                             <tr>
                                 <th>File SK</th>
                                 <td>:</td>
-                                <td>{{ $employee_transfer->sk_file}}</td>
+                                <td><a href="http://127.0.0.1:8000/storage/<?php echo $employee_transfer->sk_file; ?>" target="_blank">{{ $employee_transfer->sk_file}}</a></td>
+
                             </tr>
-                            <tr>
-                                <th>Status</th>
-                                <td>:</td>
-                                <td>{{ $employee_transfer->status }}</td>
-                            </tr>
+
 
 
                         </table>

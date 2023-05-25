@@ -8,7 +8,7 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{ $biodatakeluarga->id_number}}
+                                {{ $biodatakeluarga->name}}
                             </div>
                         </div>
                     </h5>
@@ -48,7 +48,7 @@
                             <tr>
                                 <th>Pendidikan Terakhir</th>
                                 <td>:</td>
-                                <td>{{ $biodatakeluarga->last_education}}</td>
+                                <td>{{ $biodatakeluarga->level}}</td> 
                             </tr>
                             <tr>
                                 <th>NPWP</th>

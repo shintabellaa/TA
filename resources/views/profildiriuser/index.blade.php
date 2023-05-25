@@ -1,6 +1,41 @@
 @extends('layouts.myApp')
 
 @section('content')
+@if ($message = Session::get('success'))
+      <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($message = Session::get('error'))
+      <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($message = Session::get('warning'))
+      <div class="alert alert-warning alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+    </div>
+    @endif
+
+    @if ($message = Session::get('info'))
+      <div class="alert alert-info alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        Please check the form below for errors
+    </div>
+    @endif
+
 <div class="container-fluid">
 
     {{-- show pegawai --}}
@@ -30,7 +65,16 @@
                                 <tr>
                                     <th>Nama</th>
                                     <td>:</td>
+                                    @if (auth()->user()->title_ahead && auth()->user()->back_title)
                                     <td>{{ auth()->user()->title_ahead}}. {{auth()->user()->real_name }}, {{ auth()->user()->back_title }}  </td>
+                                    @elseif (auth()->user()->title_ahead)
+                                        <td>{{ auth()->user()->title_ahead}}. {{auth()->user()->real_name }} </td>
+                                    @elseif (auth()->user()->back_title)
+                                        <td>{{ auth()->user()->real_name }}, {{ auth()->user()->back_title }}  </td>
+                                    @else
+                                        <td>{{ auth()->user()->real_name }}  </td>
+                                    @endif
+
                                 </tr>
                                 <tr>
                                     <th>tempat lahir</th>
@@ -76,17 +120,17 @@
                                 <tr>
                                     <th>Alamat</th>
                                     <td>:</td>
-                                    <td>{{auth()->user()->address}}</td>
+                                    <td>{{ optional($profildiri->address_details->first())->address}}</td>
                                 </tr>
                                 <tr>
                                     <th>Kabupaten</th>
                                     <td>:</td>
-                                    <td>{{ auth()->user()->regency_name}}</td>
+                                    <td>{{ optional($profildiri->address_details->first())->district->regency->regency_name}}</td>
                                 </tr>
                                 <tr>
                                     <th>Kecamatan</th>
                                     <td>:</td>
-                                    <td>{{ auth()->user()->district_name}}</td>
+                                    <td>{{ optional($profildiri->address_details->first())->district->district_name}}</td>
                                 </tr>
                                 <tr>
                                     <th>Email</th>
@@ -98,11 +142,11 @@
                                     <td>:</td>
                                     <td>{{ auth()->user()->phone_number}}</td>
                                 </tr>
-                                {{-- <tr>
+                                <tr>
                                     <th>No KTP</th>
                                     <td>:</td>
                                     <td>{{ $profildiri->id_card_number}}</td>
-                                </tr> --}}
+                                </tr>
                                 <tr>
                                     <th>No BPJS</th>
                                     <td>:</td>
@@ -118,13 +162,17 @@
                                     <td>:</td>
                                     <td>{{ auth()->user()->employee_status}}</td>
                                 </tr>
-                                {{-- <tr>
+                                <tr>
                                     <th>Foto</th>
                                     <td>:</td>
                                     <td><a target="_blank" href="{{ $profildiri->avatarurl}}">{{ $profildiri->photo}}</a></td>
-                                </tr> --}}
+                                </tr>
 
                             </table>
+
+                            <a href="{{ route('biodatapegawai.edit', auth()->user()->nip_nik) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
+                                <i class="cil-pencil">Edit Profil</i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -347,7 +395,7 @@
                                 <th class="text-center">No</th>
                                 <th class="text-center">Jabatan Fungsional</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">File SK</th>
+
                                 <th class="text-center">Aksi</th>
                             </tr>
 
@@ -358,7 +406,7 @@
                                     <td class="text-center">{{ $loop->iteration }}</td>
                                     <td class="text-center">{{ $fungsionaldetails->information}}</td>
                                     <td class="text-center">{{ $fungsionaldetails->status}}</td>
-                                    <td class="text-center">{{ $fungsionaldetails->sk_file}}</td>
+
 
                                     <td class="text-center">
                                         <a href="{{ route('fungsionaluser.show',$fungsionaldetails->functional_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
@@ -411,7 +459,7 @@
                                 <th class="text-center">No</th>
                                 <th class="text-center">Pangkat Golongan</th>
                                 <th class="text-center">Status</th>
-                                <th class="text-center">File SK</th>
+
                                 <th class="text-center">Aksi</th>
 
                             </tr>
@@ -423,7 +471,7 @@
                                     <td class="text-center">{{ $loop->iteration}}</td>
                                     <td class="text-center">{{ $pangkatgolongans->name  }}</td>
                                     <td class="text-center">{{ $pangkatgolongans->status}}</td>
-                                    <td class="text-center">{{ $pangkatgolongans->sk_file}}</td>
+
 
                                     <td class="text-center">
                                         <a href="{{ route('pangkatgolonganuser.show',$pangkatgolongans->rank_group_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
@@ -455,6 +503,67 @@
     </div>
 {{-- end pangkat golongan --}}
 
+{{-- Mutasi --}}
+<div class="fade-in">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <h5>
+                    <div class="card-header">
+                        <div class="d-flex">
+                            <a href="{{ route('mutasiuser.create')}}" class="btn btn-primary">Tambah Riwayat Mutasi</a>
+                         </div>
+                    </div>
+                </h5>
+                <div class="card-body">
+                    <table class="table table-responsive-sm table-striped">
+                        <thead>
+                            {{-- rubah mulai --}}
+                            <tr>
+                                <th class="text-center">No</th>
+                                <th class="text-center">Unit Kerja</th>
+                                <th class="text-center">Tanggal Mutasi</th>
+                                <th class="text-center">Aksi</th>
+                            </tr>
+                            {{-- rubah selesai --}}
+                        </thead>
+                        <tbody>
+                            @foreach ($mutasi as $employee_transferss)
+                                    <tr>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td class="text-center">{{ $employee_transferss->name }}</td>
+                                        <td class="text-center">{{ $employee_transferss->employee_transfer_date}}</td>
+
+
+
+                                        <td class="text-center">
+                                            <a href="{{ route('mutasiuser.show',$employee_transferss->employee_transfer_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
+                                                <i class="cil-zoom-in"></i>
+                                            </a>
+                                            <a href="{{ route('mutasiuser.edit',$employee_transferss->employee_transfer_id) }}"class="btn btn-warning" id="editButton" data-target="#editPegawai">
+                                                <i class="cil-pencil"></i>
+                                            </a>
+                                            <form
+                                            action="{{ route('mutasiuser.destroy',$employee_transferss->employee_transfer_id) }}"
+                                            method="post" onclick="return confirm('Anda yakin menghapus data ?')"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button class="btn btn-youtube">
+                                                <i class="cil-trash"></i>
+                                            </button>
+                                        </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- end mutasi --}}
 
 {{-- data keluarga pegawai --}}
     <div class="fade-in">

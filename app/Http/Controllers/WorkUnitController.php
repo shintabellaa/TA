@@ -28,7 +28,7 @@ class WorkUnitController extends Controller
 
 
         ]);
-        return redirect()->route('unitkerja.index');
+        return redirect()->route('unitkerja.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function show($id)
@@ -50,7 +50,7 @@ class WorkUnitController extends Controller
 
             'name' => $request->name,
         ]);
-        return redirect()->route('unitkerja.index');
+        return redirect()->route('unitkerja.index')->with(['success' => 'Data Berhasil Disimpan']);
 
     }
 
@@ -59,6 +59,6 @@ class WorkUnitController extends Controller
         $work_unit = Work_Unit::find($id);
         $work_unit->delete();
 
-        return redirect()->route('unitkerja.index');
+        return redirect()->route('unitkerja.index')->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

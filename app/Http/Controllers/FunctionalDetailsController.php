@@ -19,9 +19,11 @@ class FunctionalDetailsController extends Controller
     public function create(Request $request)
     {
        $nipnik = $request->nip_nik;
-       $biodatapegawai = User::pluck('real_name','nip_nik');
+       $biodatapegawai = User::find($nipnik);
        $fungsionaldetail = Functional_Details::pluck('functional_id');
        $fungsional = Functional::pluck('information','functional_id');
+
+        //   dd($biodatapegawai);
         return view('fungsionaldetail.create', compact('nipnik','biodatapegawai','fungsional','fungsionaldetail'));
     }
 
@@ -44,7 +46,7 @@ class FunctionalDetailsController extends Controller
             'sk_file' => $request->sk_file->storeAs('sk_file', $fileNamee,'public'),
 
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -57,7 +59,10 @@ class FunctionalDetailsController extends Controller
 
     public function edit($functional_id)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+
+        $fungsionaldetail = Functional_Details::join('functionals', 'functional_details.functional_id', '=', 'functionals.functional_id')
+        ->select('functional_details.*', 'functionals.*')->where('functional_details.functional_id', '=', $functional_id)->first();
+        $biodatapegawai = User::find($fungsionaldetail->nip_nik);
         $fungsionaldetail = Functional_Details::find($functional_id);
         $fungsional = Functional::pluck('information','functional_id');
          return view('fungsionaldetail.edit', compact('biodatapegawai','fungsional','fungsionaldetail'));
@@ -79,7 +84,7 @@ class FunctionalDetailsController extends Controller
             'sk_file' => $request->sk_file->storeAs('sk_file_fungsional', $fileName,'public'),
 
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -88,7 +93,7 @@ class FunctionalDetailsController extends Controller
         $fungsionaldetail = Functional_Details::find($id);
         $fungsionaldetail->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with(['error' => 'Data Berhasil Dihapus']);
     }
 
 

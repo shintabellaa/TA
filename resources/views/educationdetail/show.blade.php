@@ -48,9 +48,11 @@
                             <tr>
                                 <th> File Ijazah</th>
                                 <td>:</td>
-                                <td>{{ $educationdetail->certificate_file}}</td>
-                            </tr>
+                                <td><a href="http://127.0.0.1:8000/storage/<?php echo $educationdetail->certificate_file; ?>" target="_blank">{{ $educationdetail->certificate_file}}</a></td>
 
+
+                            </tr>
+ 
                         </table>
                     </div>
                 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Rank_Group;
 use Illuminate\Http\Request;
 use App\User;
+use Illuminate\Support\Facades\Auth;
 
 class RankGroupUserController extends Controller
 {
@@ -13,13 +14,16 @@ class RankGroupUserController extends Controller
     {
         $pangkatgolongan = Rank_Group::all();
         return view ('pangkatgolonganuser.index', compact('pangkatgolongan'));
-
     }
 
-
-    public function create()
+    public function create(request $request)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        if($request->all()){
+            $nipnik = $request->nip_nik;
+        }else{
+            $nipnik = Auth::user()->nip_nik;
+        }
+        $biodatapegawai = User::find($nipnik);
         $pangkatgolongan = Rank_Group::all();
         return view('pangkatgolonganuser.create', compact('biodatapegawai','pangkatgolongan'));
     }
@@ -41,7 +45,7 @@ class RankGroupUserController extends Controller
             'status'=>$request->status,
             'sk_file' => $request->file('sk_file')->storeAs('sk_file_rankgroup', $fileName,'public'),
         ]);
-        return redirect('/profildiri');
+        return redirect('/profildiri')->with(['success' => 'Data Berhasil Disimpan']);
     }
     else{
         echo "<script>alert('ekstensi file salah')</script>";
@@ -62,13 +66,16 @@ class RankGroupUserController extends Controller
     public function edit($id)
     {
         $pangkatgolongan = Rank_Group::find($id);
-        return view('pangkatgolonganuser.show', compact('pangkatgolongan'));
+        $biodatapegawai = User::find($pangkatgolongan->nip_nik);
+        return view('pangkatgolonganuser.edit', compact('pangkatgolongan', 'biodatapegawai'));
     }
 
 
     public function update(Request $request,$id)
     {
-        $fileName = $request->certificate_file->getClientOriginalName();
+        $extension = $request->sk_file->extension();
+        if ($extension == "pdf"){
+        $fileName = $request->sk_file->getClientOriginalName();
         $pangkatgolongan = Rank_Group::find($id);
         $pangkatgolongan->update([
             // 'nip/nik' =>$request->nip_nik,
@@ -79,10 +86,16 @@ class RankGroupUserController extends Controller
             'decided_by'=>$request->input('decided_by'),
             'basic_rules'=>$request->input('basic_rules'),
             // 'sk_file'=>$request->input('sk_file'),
-            'sk_file' => $request->sk_file->storeAs('certificate_file', $fileName,'public'),
+            'sk_file' => $request->sk_file->storeAs('sk_file', $fileName,'public'),
 
         ]);
-        return redirect()->route('pangkatgolonganuser.index');
+    }else{
+        echo "<script>alert('ekstensi file salah')</script>";
+        $pangkatgolongan = Rank_Group::find($id);
+        $biodatapegawai = User::find($pangkatgolongan->nip_nik);
+        return view('pangkatgolonganuser.edit', compact('pangkatgolongan', 'biodatapegawai'));
+}
+        return redirect()->route('profildiri.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function destroy($rank_group_id)
@@ -90,6 +103,6 @@ class RankGroupUserController extends Controller
         $pangkatgolongan = Rank_Group::find($rank_group_id);
         $pangkatgolongan->delete();
 
-        return redirect()->route('profildiri.index');
+        return redirect()->route('profildiri.index')->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

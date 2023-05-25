@@ -1,14 +1,23 @@
 <div class="form-group">
     <div class="row">
-        <div class="col-lg-3">
-            <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
-        </div>
         <div class="col-lg-9">
-            {{-- {!!  auth()->user()->real_name !!} --}}
-            {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!}
+            {!! Form::text('nip_nik', $biodatapegawai->nip_nik, ['class' => 'form-control', 'hidden']) !!}
         </div>
     </div>
 </div>
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-3">
+            <label for="nama" class="col-form-label">Nama Pegawai</label>
+        </div>
+        <div class="col-lg-9">
+            {!! Form::text('nama', $biodatapegawai->title_ahead.' '.$biodatapegawai->real_name.' '.$biodatapegawai->back_title, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai', 'disabled']) !!}
+        </div>
+    </div>
+</div>
+
+
+
 
 <div class="form-group">
     <div class="row">
@@ -42,7 +51,7 @@
             <label for="sk_no" class="col-form-label">No SK</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::text('sk_no', null, ['class' => 'form-control', 'placeholder'=>'NO SK']) !!}
+            {!! Form::text('sk_no', null, ['class' => 'form-control', 'placeholder'=>'No SK']) !!}
 
         </div>
     </div>
@@ -90,8 +99,7 @@
             <label for="sk_file" class="col-form-label">File SK</label>
         </div>
         <div class="col-lg-9">
-            {{-- {!! Form:: file('sk_file',) !!} --}}
-            {!! Form::file('sk_file',  ['class' => 'form-control', 'accept'=>'application/pdf', 'placeholder'=>'File SK']) !!}
+            {!! Form:: file('sk_file',) !!}
 
         </div>
     </div>

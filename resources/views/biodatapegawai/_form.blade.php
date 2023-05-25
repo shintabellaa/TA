@@ -3,11 +3,16 @@
         <div class="col-lg-3">
             <label for="role_id" class="col-form-label">Role</label>
         </div>
+        @if ($role_id != null)
         <div class="col-lg-9">
-            {!! Form::select('roleselect', $role, null,  ['class' => 'form-control']) !!}
-
-
+            {!! Form::select('roleselect', $role, $role_id,  ['class' => 'form-control']) !!}
         </div>
+        @else
+            <div class="col-lg-9">
+                {!! Form::select('roleselect', $role, null,  ['class' => 'form-control', 'required']) !!}
+            </div>
+        @endif
+
     </div>
 </div>
 
@@ -20,7 +25,7 @@
         </div>
         <div class="col-lg-9">
             {{-- pakai iko taruiuh --}}
-            {!! Form::text('nip_nik', null, ['class' => 'form-control', 'placeholder'=>'NIP/NIK']) !!}
+            {!! Form::text('nip_nik', null, ['class' => 'form-control', 'placeholder'=>'NIP/NIK', 'required']) !!}
         </div>
     </div>
 </div>
@@ -167,7 +172,7 @@
             <label for="blood_group" class="col-form-label">Golongan Darah</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::select ('blood_group', ['G'=> '--Golongan Darah--', 'A' => 'A', 'B' => 'B', 'C'=>'AB', 'D'=>'O'], null, ['class' => 'form-control']) !!}
+            {!! Form::select ('blood_group', ['G'=> '--Golongan Darah--', 'A' => 'A', 'B' => 'B', 'AB'=>'AB', 'O'=>'O'], null, ['class' => 'form-control']) !!}
 
         </div>
     </div>
@@ -202,10 +207,17 @@
         <div class="col-lg-3">
             <label for="regencies" class="col-form-label">Kabupaten</label>
         </div>
+        @if ($regency_id != null)
+        <div class="col-lg-9">
+            {!! Form::select('regencies', $regencies, $regency_id, ['class' => 'form-control', 'placeholder'=>'Kabupaten']) !!}
+
+        </div>
+        @else
         <div class="col-lg-9">
             {!! Form::select('regencies', $regencies, null, ['class' => 'form-control', 'placeholder'=>'Kabupaten']) !!}
 
         </div>
+        @endif
     </div>
 </div>
 
@@ -214,9 +226,15 @@
         <div class="col-lg-3">
             <label for="districts" class="col-form-label">Kecamatan</label>
         </div>
+        @if ($district_id != null)
         <div class="col-lg-9">
-            {!! Form::select('districts', $districts,null, ['class' => 'form-control', 'placeholder'=>'Kecamatan']) !!}
+            {!! Form::select('districts', $districts, $district_id, ['class' => 'form-control', 'placeholder'=>'Kecamatan']) !!}
         </div>
+        @else
+        <div class="col-lg-9">
+            {!! Form::select('districts', $districts, null, ['class' => 'form-control', 'placeholder'=>'Kecamatan']) !!}
+        </div>
+        @endif
     </div>
 </div>
 
@@ -324,7 +342,11 @@
         </div>
         <div class="col-lg-9">
             <div class="col-md-4 text-center">
-                <img id="blah" src="https://th.bing.com/th/id/OIP.inXSw5jbycIIlXC1dIXdiwHaIL?pid=ImgDet&rs=1" width="150px" height="150px" class="avatar">
+                @if ($biodatapegawai)
+                <img id="blah" src="http://127.0.0.1:8000/storage/<?php echo $biodatapegawai->photo; ?>" width="150px" height="150px" class="avatar">
+                @else
+                <img id="blah" src="" width="150px" height="150px" class="avatar">
+                @endif
                 <div class="btn btn-default btn-sm">
                     <i class="fa fa-upload"></i>
                 </div>

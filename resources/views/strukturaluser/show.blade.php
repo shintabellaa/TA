@@ -9,11 +9,11 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{ $strukturaldetails->information }}
+                                {{ $strukturaldetails->structural->information }}
                             </div>
                         </div>
                     </h5>
-                    <div class="card-body">
+                    <div class="card-body">  
                         <table class="table table-responsive">
 
                             <tr>
@@ -49,7 +49,9 @@
                             <tr>
                                 <th>File SK</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetails->sk_file  }}</td>
+                                <td><a href="http://127.0.0.1:8000/storage/<?php echo $strukturaldetails->sk_file; ?>" target="_blank">{{ $strukturaldetails->sk_file}}</a></td>
+
+
                             </tr>
 
                         </table>

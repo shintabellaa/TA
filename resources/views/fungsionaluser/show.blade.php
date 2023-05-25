@@ -9,7 +9,7 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{ $fungsionaldetails->functional_id }}
+                                {{ $fungsionaldetails->functional->information }}
                             </div>
                         </div>
                     </h5>
@@ -48,7 +48,9 @@
                             <tr>
                                 <th>File SK</th>
                                 <td>:</td>
-                                <td>{{ $fungsionaldetails->sk_file}}</td>
+                                <td><a href="http://127.0.0.1:8000/storage/<?php echo $fungsionaldetails->sk_file; ?>" target="_blank">{{ $fungsionaldetails->sk_file}}</a></td>
+
+
                             </tr>
 
                         </table>

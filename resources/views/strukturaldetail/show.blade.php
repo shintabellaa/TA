@@ -48,7 +48,7 @@
                             <tr>
                                 <th>File SK</th>
                                 <td>:</td>
-                                <td>{{ $strukturaldetail->sk_file  }}</td>
+                                <td><a href="http://127.0.0.1:8000/storage/<?php echo $strukturaldetail->sk_file; ?>" target="_blank">{{ $strukturaldetail->sk_file}}</a></td>
                             </tr>
 
 

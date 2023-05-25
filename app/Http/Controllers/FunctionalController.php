@@ -21,7 +21,7 @@ class FunctionalController extends Controller
     public function create()
     {
         return view('fungsional.create');
-    } 
+    }
 
     // public function store(Request $request)
     // {
@@ -45,7 +45,7 @@ class FunctionalController extends Controller
 
 
 
-        return redirect()->route('fungsional.index');
+        return redirect()->route('fungsional.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -82,7 +82,7 @@ class FunctionalController extends Controller
 
         ]);
 
-        return redirect()->route('fungsional.index');
+        return redirect()->route('fungsional.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function destroy( $functional_id)
@@ -90,7 +90,7 @@ class FunctionalController extends Controller
         $fungsional = Functional::find($functional_id);
         $fungsional->delete();
 
-        return redirect()->route('fungsional.index');
+        return redirect()->route('fungsional.index')->with(['error' => 'Data Berhasil Dihapus']);
     }
 
 }

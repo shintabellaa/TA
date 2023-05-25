@@ -47,7 +47,7 @@ class EducationController extends Controller
         //     'dean_headmaster' => $request->input('dean_headmaster'),
         // ]);
         // dd($educationdetail);
-        return redirect()->route("education.index");
+        return redirect()->route("education.index")->with(['success' => 'Data Berhasil Disimpan']);
 
 
     }
@@ -74,7 +74,7 @@ class EducationController extends Controller
         $education->update([
             'level' => $request->input('level'),
         ]);
-        return redirect()->route('education.index');
+        return redirect()->route('education.index') ->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -102,6 +102,6 @@ class EducationController extends Controller
         $education = Education::find($education_id);
         $education->delete();
 
-        return redirect()->route('education.index');
+        return redirect()->route('education.index')->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

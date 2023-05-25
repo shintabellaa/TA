@@ -7,6 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Session;
 
 class LoginController extends Controller
 {
@@ -30,6 +32,15 @@ class LoginController extends Controller
      */
     protected $redirectTo = RouteServiceProvider::HOME;
 
+    // public function redirectTo() {
+    //     $role = Auth::user()->role_id;
+    //     if($role == 2){
+    //         return redirect()->route('pro');
+    //     }else{
+    //         return redirect()->route('home');
+    //     }
+    //   }
+
     /**
      * Create a new controller instance.
      *
@@ -43,5 +54,18 @@ class LoginController extends Controller
     public function username()
     {
         return 'nip_nik';
+    }
+
+    public function login(Request $request){
+        if($this->attemptLogin($request) == false){
+            return redirect()->back() ->with(['error' => 'Username atau Password Salah !']);
+        }else{
+            if(Auth::user()->role_id == 1){
+                return redirect()->route('home');
+            }
+            elseif(Auth::user()->role_id == 2){
+                return redirect()->route('pro');
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiMasterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,3 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::apiResource('pegawai', 'PegawaiAPIController');
+Route::get("struktural", [ApiMasterController::class, 'struktural']);
+Route::get("fungsional", [ApiMasterController::class, 'fungsional']);
+Route::get("education", [ApiMasterController::class, 'education']);
+Route::get("workunit", [ApiMasterController::class, 'workunit']);

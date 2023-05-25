@@ -9,14 +9,14 @@
                     <h5>
                         <div class="card-header">
                             <div class="d-flex">
-                                {{$pangkatgolongan->rank_group_id }}
+                                {{$pangkatgolongan->name }}
                             </div>
                         </div>
                     </h5>
                     <div class="card-body">
                         <table class="table table-responsive">
                            <tr>
-                                <th>Nama</th>
+                                <th>Pangkat Golongan</th>
                                 <td>:</td>
                                 <td>{{$pangkatgolongan->name }}</td>
                             </tr>
@@ -48,7 +48,9 @@
                             <tr>
                                 <th>File SK</th>
                                 <td>:</td>
-                                <td>{{ $pangkatgolongan->sk_file}}</td>
+                                <td><a href="http://127.0.0.1:8000/storage/<?php echo $pangkatgolongan->sk_file; ?>" target="_blank">{{ $pangkatgolongan->sk_file}}</a></td>
+
+
                             </tr>
 
                         </table>

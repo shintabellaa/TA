@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Session;
 
 use Auth;
 
@@ -28,10 +29,10 @@ class UserLoginController extends Controller
 
         if(Auth::attempt($request->only('nip_nik','password')))
         {
-            return redirect()->route('login');
+            return redirect()->route('login')->with(['error' => 'Data Berhasil Disimpan']);
         }
 
-        return redirect('/login');
+        return redirect('/login')->with(['error' => 'Data Berhasil Disimpan']);
     }
 
     public function logout()

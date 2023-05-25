@@ -18,13 +18,11 @@ class StructuralDetailsController extends Controller
 
     public function create(Request $request)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $nipnik = $request->nip_nik;
+        $biodatapegawai = User::find($nipnik);
         $struktural = Structural::pluck('information','structural_id');
         return view('strukturaldetail.create', compact('biodatapegawai', 'struktural'));
-
     }
-
-
 
     public function store(Request $request)
     {
@@ -40,7 +38,7 @@ class StructuralDetailsController extends Controller
             // 'sk_file'=>$request->input('sk_file'),
             'sk_file' => $request->file('sk_file')->storeAs('sk_file_struktural', $fileName,'public'),
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -54,9 +52,11 @@ class StructuralDetailsController extends Controller
 
     public function edit($structural_id)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
-        $struktural = Structural::pluck('information','structural_id');
+        $structuraldetail = Structural_Details::join('structurals', 'structural_details.structural_id', '=', 'structurals.structural_id')
+        ->select('structural_details.*', 'structurals.*')->where('structural_details.structural_id', '=', $structural_id)->first();
+        $biodatapegawai = User::find($structuraldetail->nip_nik);
         $strukturaldetail = Structural_Details::find($structural_id);
+        $struktural = Structural::pluck('information','structural_id');
         return view('strukturaldetail.edit', compact('biodatapegawai','strukturaldetail','struktural'));
     }
 
@@ -75,13 +75,13 @@ class StructuralDetailsController extends Controller
             // 'sk_file'=>$request->input('sk_file'),
             'sk_file' => $request->file('sk_file')->storeAs('sk_file_struktural', $fileName,'public'),
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function destroy($id)
     {
         $strukturaldetail = Structural_Details::find($id);
         $strukturaldetail->delete();
-        return redirect()->back();
+        return redirect()->back()->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

@@ -38,7 +38,9 @@
                             <tr>
                                 <th>Sertifikat</th>
                                 <td>:</td>
-                                <td>{{ $trainings->certificate_file}}</td>
+                                <td><a href="http://127.0.0.1:8000/storage/<?php echo  $trainings->certificate_file; ?>" target="_blank">{{  $trainings->certificate_file}}</a></td>
+
+
                             </tr>
                         </table>
                     </div>

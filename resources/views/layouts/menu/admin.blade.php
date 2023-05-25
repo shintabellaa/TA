@@ -23,7 +23,10 @@
 
 
     <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"href="{{url('/biodatapegawai')}}"><span class="c-sidebar-nav-icon"></span>Daftar Pegawai</a></li>
-    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"href="{{url('/datadiri')}}"><span class="c-sidebar-nav-icon"></span>Data Pribadi</a></li>
+
+    {{-- <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"href="{{url('/datadiri')}}"><span class="c-sidebar-nav-icon"></span>Data Pribadi</a></li> --}}
+
+    <li class="c-sidebar-nav-item"><a class="c-sidebar-nav-link"href="{{url('/api')}}"><span class="c-sidebar-nav-icon"></span>API</a></li>
 
 
 </ul>

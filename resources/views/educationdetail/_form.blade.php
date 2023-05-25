@@ -1,10 +1,17 @@
 <div class="form-group">
     <div class="row">
+        <div class="col-lg-9">
+            {!! Form::text('nip_nik', $biodatapegawai->nip_nik, ['class' => 'form-control', 'hidden']) !!}
+        </div>
+    </div>
+</div>
+<div class="form-group">
+    <div class="row">
         <div class="col-lg-3">
-            <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
+            <label for="nama" class="col-form-label">Nama Pegawai</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!}
+            {!! Form::text('nama', $biodatapegawai->title_ahead.' '.$biodatapegawai->real_name.' '.$biodatapegawai->back_title, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai', 'disabled']) !!}
         </div>
     </div>
 </div>
@@ -13,10 +20,17 @@
         <div class="col-lg-3">
             <label for="education_id" class="col-form-label">Tingkat</label>
         </div>
+        @if ($education_id != null)
+        <div class="col-lg-9">
+            {!! Form::select('educationselect', $education, $education_id, ['class' => 'form-control', 'placeholder'=>'Tingkat']) !!}
+
+        </div>
+        @else
         <div class="col-lg-9">
             {{-- pakai iko taruiuh --}}
             {!! Form::select('educationselect', $education, null, ['class' => 'form-control', 'placeholder'=>'Tingkat']) !!}
         </div>
+        @endif
     </div>
 </div>
 

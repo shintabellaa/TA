@@ -25,10 +25,8 @@ class WorkUnitUserController extends Controller
     {
         Work_Unit::create([
             'name' => $request->name,
-
-
         ]);
-        return redirect()->route('unitkerjauser.index');
+        return redirect()->route('unitkerjauser.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function show($id)
@@ -50,7 +48,7 @@ class WorkUnitUserController extends Controller
 
             'name' => $request->name,
         ]);
-        return redirect()->route('unitkerjauser.index');
+        return redirect()->route('unitkerjauser.index')->with(['success' => 'Data Berhasil Disimpan']);
 
     }
 
@@ -59,6 +57,6 @@ class WorkUnitUserController extends Controller
         $unitkerjauser = Work_Unit::find($id);
         $unitkerjauser->delete();
 
-        return redirect()->route('unitkerjauser.index');
+        return redirect()->route('unitkerjauser.index')->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

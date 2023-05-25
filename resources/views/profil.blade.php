@@ -6,6 +6,6 @@
 
 @section('content')
     <div class="row">
-
+        <?php echo Auth::user(); ?>
     </div>
 @endsection

@@ -18,9 +18,10 @@ class TrainingController extends Controller
     }
 
 
-    public function create()
+    public function create(Request $request)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $nipnik = $request->nip_nik;
+        $biodatapegawai = User::find($nipnik);
         return view('training.create', compact('biodatapegawai'));;
     }
 
@@ -41,7 +42,9 @@ class TrainingController extends Controller
             'certificate_file' => $request->certificate_file->storeAs('certificate_file', $fileName,'public'),
 
         ]);
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
+
+        // return redirect()->route('biodatapegawai.index',['nip_nik'])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -55,7 +58,7 @@ class TrainingController extends Controller
     public function edit($id)
     {
         $trainings = Training::find($id);
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $biodatapegawai = User::find($trainings->nip_nik);
         return view('training.edit', compact('trainings','biodatapegawai'));
     }
 
@@ -73,8 +76,9 @@ class TrainingController extends Controller
         'certificate_file' => $request->certificate_file,
         ]);
 
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
 
-        return redirect()->route('biodatapegawai.index',['nip_nik']);
+        // return redirect()->route('biodatapegawai.index',['nip_nik'])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function destroy($id)
@@ -82,6 +86,6 @@ class TrainingController extends Controller
         $trainings = training::find($id);
         $trainings->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

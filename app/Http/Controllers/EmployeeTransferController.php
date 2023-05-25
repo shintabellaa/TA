@@ -21,7 +21,8 @@ class EmployeeTransferController extends Controller
 
     public function create(Request $request)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $nipnik = $request->nip_nik;
+        $biodatapegawai = User::find($nipnik);
         $work_unit = Work_Unit::pluck('name','work_unit_id');
         return view('mutasi.create', compact('biodatapegawai','work_unit'));
     }
@@ -39,7 +40,7 @@ class EmployeeTransferController extends Controller
             'sign_by' => $request->sign_by,
             'sk_file' => $request->sk_file->storeAs('sk_file_mutasi', $fileNamee,'public'),
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]) ->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -53,9 +54,14 @@ class EmployeeTransferController extends Controller
 
     public function edit( $employee_transfer_id)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+
+        $employee_transfer = Employee_Transfer::join('work_units', 'employee_transfers.work_unit_id', '=', 'work_units.work_unit_id')
+        ->select('employee_transfers.*', 'work_units.*')->where('employee_transfers.employee_transfer_id', '=', $employee_transfer_id)->first();
+
+        $biodatapegawai = User::find($employee_transfer->nip_nik);
         $employee_transfer = Employee_Transfer::find($employee_transfer_id);
         $work_unit = Work_Unit::pluck('name','work_unit_id');
+
         return view('mutasi.edit', compact('employee_transfer','work_unit','biodatapegawai'));
     }
 
@@ -73,7 +79,7 @@ class EmployeeTransferController extends Controller
             'sign_by' => $request->sign_by,
             'sk_file' => $request->sk_file->storeAs('sk_file_mutasi', $fileNamee,'public'),
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -82,6 +88,6 @@ class EmployeeTransferController extends Controller
         $employee_transfer = Employee_Transfer::find($employee_transfer_id);
         $employee_transfer->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

@@ -13,13 +13,13 @@ class RankGroupController extends Controller
     {
         $pangkatgolongan = Rank_Group::all();
         return view ('pangkatgolongan.index', compact('pangkatgolongan'));
-
     }
 
 
-    public function create()
+    public function create(request $request)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $nipnik = $request->nip_nik;
+        $biodatapegawai = User::find($nipnik);
         $pangkatgolongan = Rank_Group::all();
         return view('pangkatgolongan.create', compact('biodatapegawai','pangkatgolongan'));
 
@@ -39,7 +39,7 @@ class RankGroupController extends Controller
             'sk_file' => $request->input('sk_file'),
             // 'sk_file' => $request->file('sk_file')->storeAs('sk_file', $fileName,'public'),
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
@@ -52,8 +52,8 @@ class RankGroupController extends Controller
 
     public function edit($rank_group_id)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
         $pangkatgolongan = Rank_Group::find($rank_group_id);
+        $biodatapegawai = User::find($pangkatgolongan->nip_nik);
         return view('pangkatgolongan.edit', compact('pangkatgolongan','biodatapegawai'));
     }
 
@@ -74,7 +74,7 @@ class RankGroupController extends Controller
             // 'sk_file'=>$request->input('sk_file'),
             'sk_file' => $request->file('sk_file')->storeAs('sk_file_rankgroup', $fileName,'public'),
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function destroy($id)
@@ -82,6 +82,6 @@ class RankGroupController extends Controller
         $pangkatgolongan = Rank_Group::find($id);
         $pangkatgolongan->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with(['success' => 'Data Berhasil Dihapus']);
     }
 }

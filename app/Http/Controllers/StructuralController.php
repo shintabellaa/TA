@@ -5,18 +5,36 @@ namespace App\Http\Controllers;
 use App\Structural_Details;
 use App\Structural;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 
 class StructuralController extends Controller
 {
     public function index()
     {
+       
         // //load data
-        $struktural = Structural::all();
+        // $struktural = Structural::all();
+        $url = "http://127.0.0.1:8000/api/struktural?api-key=W8RSDrfiRapkpis3jAvM9adAkQcVXcBN11fwddTY";
+        // $json = file_get_contents($url);
+        // $struktural = json_decode($json, true);
+        // dd($struktural);
 
+        try {
+            $client = new Client();
+            // dd("Hello 1");
+            $res = $client->request('GET',$url);
+            
+            dd("Hello 3");
+            $json = $res->getBody();
+            $json = json_decode($json, true);
+            dd($json);  
+
+        }catch(Exception $e){
+            dd($e->getMessage());
+        }
         // //buka halaman dan kirim data, kirim data = compact
         return view('struktural.index', compact('struktural'));
-
     }
 
     public function create()
@@ -45,17 +63,14 @@ class StructuralController extends Controller
         //     'status'=>$request->input('status'),
         //     'sk_file'=>$request->input('sk_file'),
         //     // 'foto'=>$file->getClientOriginalName(),
-
-
         // ]);
-
         // // dd($request->all());
         // Structural::create([
         //     'structural_id' => $request->structural_id,
         //     'name' => $request->name,
         //     'entry_date' => $request->entry_date
         // ]);
-        return redirect()->route('struktural.index');
+        return redirect()->route('struktural.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function show($structural_id)
@@ -69,11 +84,7 @@ class StructuralController extends Controller
         $struktural = Structural::find($structural_id);
         $strukturaldetail = Structural_Details::pluck('nip_nik','tmt','sign_by','sk_no','sk_date','status','sk_file','structural_id');
         return view('struktural.edit', compact('struktural', 'strukturaldetail'));
-
     }
-
-
-
 
     public function update(Request $request, $id)
     {
@@ -82,7 +93,7 @@ class StructuralController extends Controller
             'information'=> $request->input('information'),
 
         ]);
-        return redirect()->route('struktural.index');
+        return redirect()->route('struktural.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function destroy($structural_id)
@@ -90,7 +101,6 @@ class StructuralController extends Controller
         $struktural = Structural::find($structural_id);
         $struktural->delete();
 
-        return redirect()->route('struktural.index');
+        return redirect()->route('struktural.index')->with(['error' => 'Data Berhasil Dihapus']);
     }
-
 }

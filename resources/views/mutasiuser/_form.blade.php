@@ -1,5 +1,26 @@
 <div class="form-group">
     <div class="row">
+        <div class="col-lg-9">
+            {!! Form::text('nip_nik', $biodatapegawai->nip_nik, ['class' => 'form-control', 'hidden']) !!}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="form-group">
+    <div class="row">
+        <div class="col-lg-3">
+            <label for="nama" class="col-form-label">Nama Pegawai</label>
+        </div>
+        <div class="col-lg-9">
+            {!! Form::text('nama', $biodatapegawai->title_ahead.' '.$biodatapegawai->real_name.' '.$biodatapegawai->back_title, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai', 'disabled']) !!}
+        </div>
+    </div>
+</div>
+
+<div class="form-group">
+    <div class="row">
         <div class="col-lg-3">
             <label for="work_unit_id" class="col-form-label">Unit Kerja</label>
         </div>
@@ -12,16 +33,20 @@
 
 
 
-<div class="form-group">
+
+
+{{-- <div class="form-group">
     <div class="row">
         <div class="col-lg-3">
-            <label for="nip_nik" class="col-form-label">Nama Pegawai</label>
+            <label for="information" class="col-form-label">Unit Kerja</label>
         </div>
         <div class="col-lg-9">
-            {!! Form::select('nip_nik', $biodatapegawai, null, ['class' => 'form-control', 'placeholder'=>'Nama Pegawai']) !!}
+
+            {!! Form::text('information', null, ['class' => 'form-control', 'placeholder'=>'Unit Kerja']) !!}
         </div>
     </div>
-</div>
+</div> --}}
+
 
 
 

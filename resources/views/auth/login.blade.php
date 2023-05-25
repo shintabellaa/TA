@@ -41,6 +41,12 @@
   </head>
   <body class="c-app flex-row align-items-center">
     <div class="container">
+      @if ($message = Session::get('error'))
+        <div class="alert alert-danger alert-block">
+            <button type="button" class="close" data-dismiss="alert">×</button>
+            <strong>{{ $message }}</strong>
+        </div>
+      @endif
       <div class="row justify-content-center">
         <div class="col-md-8">
           <div class="card-group">
@@ -73,6 +79,9 @@
                     <div class="row">
                         <div class="col-6">
                             <button class="btn btn-primary px-4" type="submit">Login</button>
+                        </div>
+                        <div class="col-6">
+                            <a href={{ route('password.request') }}>Lupa Password?</a>
                         </div>
                         <div class="col-6 text-right">
 

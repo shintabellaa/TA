@@ -22,6 +22,6 @@ class RoleMiddleware
 
             return $next($request);
         }
-        return redirect()->route('home.index');
+        return redirect('/');
     }
 }

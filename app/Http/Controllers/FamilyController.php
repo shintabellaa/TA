@@ -19,9 +19,10 @@ class FamilyController extends Controller
         return view ('biodatakeluarga._form', compact('biodatakeluarga'));
     }
 
-    public function create()
+    public function create(request $request)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $nipnik = $request->nip_nik;
+        $biodatapegawai = User::find($nipnik);
         $biodatakeluarga = Family::all();
         $education = Education::pluck('level','education_id');
         return view('biodatakeluarga.create', compact('biodatapegawai','biodatakeluarga','education'));
@@ -31,7 +32,8 @@ class FamilyController extends Controller
     public function store(Request $request)
     {
         // dd($request->all());
-        Family::create([
+
+        $do = Family::create([
             'id_number' => $request->id_number,
             'nip_nik' => $request->nip_nik,
             'name' => $request->name,
@@ -42,22 +44,29 @@ class FamilyController extends Controller
             'occupation'=>$request->occupation,
             'last_education'=>$request->last_education,
             'npwp_no'=>$request->npwp_no,
+
+
+        ])->id_number;
+
+        Family::where('id_number', '=', $do)->update([
+            'id_number' => $request->id_number,
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]) ->with(['success' => 'Data Berhasil Disimpan']);
     }
 
 
-    public function show($id)
+    public function show($id_number)
     {
-        $biodatakeluarga = Family::find($id);
+        $biodatakeluarga = Family::find($id_number);
         return view('biodatakeluarga.show', compact('biodatakeluarga'));
     }
 
 
     public function edit($id_number)
     {
+
         $biodatakeluarga = Family::find($id_number);
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $biodatapegawai = User::find($biodatakeluarga->nip_nik);
         $education = Education::pluck('level','education_id');
 
         return view('biodatakeluarga.edit', compact('biodatakeluarga','biodatapegawai',"education"));
@@ -79,15 +88,15 @@ class FamilyController extends Controller
             'last_education'=>$request->last_education,
             'npwp_no'=>$request->npwp_no,
         ]);
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]) ->with(['success' => 'Data Berhasil Disimpan']);
 
     }
 
-    public function destroy($id)
+    public function destroy($id_number)
     {
-        $biodatakeluarga = Family::find($id);
+        $biodatakeluarga = Family::find($id_number);
         $biodatakeluarga->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

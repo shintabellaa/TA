@@ -23,8 +23,8 @@ class Work_Unit extends Model
     {
         return [
             'work_unit_id' => [
-                'format' => 'WU-?', // autonumber format. '?' will be replaced with the generated number.
-                'length' => 5 // The number of digits in an autonumber
+                'format' => 'WU-?', 
+                'length' => 5
             ]
         ];
     }

@@ -2,6 +2,41 @@
 @extends('layouts.myApp')
 
 @section('content')
+@if ($message = Session::get('success'))
+      <div class="alert alert-success alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+          <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($message = Session::get('error'))
+      <div class="alert alert-danger alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($message = Session::get('warning'))
+      <div class="alert alert-warning alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+    </div>
+    @endif
+
+    @if ($message = Session::get('info'))
+      <div class="alert alert-info alert-block">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        <strong>{{ $message }}</strong>
+      </div>
+    @endif
+
+    @if ($errors->any())
+      <div class="alert alert-danger">
+        <button type="button" class="close" data-dismiss="alert">×</button>
+        Please check the form below for errors
+    </div>
+    @endif
+
 <div class="container-fluid">
 
 {{-- show pegawai --}}
@@ -19,7 +54,7 @@
                     <div class="card-body">
                         <table class="table table-responsive">
                             <tr>
-                                <th>NIP</th>
+                                <th>NIP/NIK</th>
                                 <td>:</td>
                                 <td>{{ $biodatapegawai->nip_nik }}</td>
                             </tr>
@@ -31,7 +66,16 @@
                             <tr>
                                 <th>Nama</th>
                                 <td>:</td>
-                                <td>{{ $biodatapegawai->title_ahead}}. {{$biodatapegawai->real_name }}, {{ $biodatapegawai->back_title }}  </td>
+                                @if ($biodatapegawai->title_ahead && $biodatapegawai->back_title)
+                                    <td>{{ $biodatapegawai->title_ahead}}. {{$biodatapegawai->real_name }}, {{ $biodatapegawai->back_title }}  </td>
+                                @elseif ($biodatapegawai->title_ahead)
+                                    <td>{{ $biodatapegawai->title_ahead}}. {{$biodatapegawai->real_name }} </td>
+                                @elseif ($biodatapegawai->back_title)
+                                    <td>{{ $biodatapegawai->real_name }}, {{ $biodatapegawai->back_title }}  </td>
+                                @else
+                                    <td>{{ $biodatapegawai->real_name }}  </td>
+                                @endif
+
                             </tr>
                             <tr>
                                 <th>tempat lahir</th>
@@ -126,6 +170,9 @@
                             </tr>
 
                         </table>
+                    <div class="d-flex">
+                        <a href="{{ route('gantipass',  $biodatapegawai->nip_nik) }}" class="btn btn-primary">Ganti Password</a>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -142,10 +189,9 @@
             <div class="card">
                 <h5>
                     <div class="card-header">
+                        <h4>Riwayat Pendidikan</h4>
                         <div class="d-flex">
-                        Riwayat Pendidikan
-                            {{-- <a href="{{ route('educationdetail.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Pendidikan</a> --}}
-
+                            <a href="{{ route('educationdetail.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah</a>
                         </div>
                     </div>
                 </h5>
@@ -209,9 +255,10 @@
                 <div class="card">
                     <h5>
                         <div class="card-header">
+                            <h4>Riwayat Jabatan Fungsional</h4>
                             <div class="d-flex">
-                                Riwayat Jabatan Fungsional
-                                {{-- <a href="{{ route('fungsionaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Jabatan Fungsional</a> --}}
+
+                                <a href="{{ route('fungsionaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah</a>
 
                             </div>
                         </div>
@@ -273,9 +320,10 @@
             <div class="card">
                 <h5>
                     <div class="card-header">
+                        <h4>Riwayat Jabatan Struktural</h4>
                         <div class="d-flex">
-                            Riwayat Jabatan Struktural
-                            {{-- <a href="{{ route('strukturaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Jabatan Struktural</a> --}}
+
+                            <a href="{{ route('strukturaldetail.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah</a>
                            </div>
                     </div>
                 </h5>
@@ -336,10 +384,10 @@
                 <div class="card">
                     <h5>
                         <div class="card-header">
+                            <h4>Riwayat Mutasi</h4>
                             <div class="d-flex">
 
-                                Riwayat Mutasi
-                                {{-- <a href="{{ route('mutasi.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Mutasi</a> --}}
+                                <a href="{{ route('mutasi.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah</a>
                              </div>
                         </div>
                     </h5>
@@ -401,9 +449,10 @@
                 <div class="card">
                     <h5>
                         <div class="card-header">
+                            <h4>Riwayat Diklat</h4>
                             <div class="d-flex">
-                                Riwayat Diklat
-                                {{-- <a href="{{ route('training.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Diklat</a> --}}
+
+                                <a href="{{ route('training.create', ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah</a>
                             </div>
                         </div>
                     </h5>
@@ -468,9 +517,10 @@
                 <div class="card">
                     <h5>
                         <div class="card-header">
+                            <h4>Riwayat Pangkat Golongan</h4>
                             <div class="d-flex">
-                                Riwayat Pangkat Golongan
-                                {{-- <a href="{{ route('pangkatgolongan.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Riwayat Pangkat Golongan</a> --}}
+
+                                <a href="{{ route('pangkatgolongan.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah</a>
 
                             </div>
                         </div>
@@ -494,7 +544,7 @@
                                         <td class="text-center">{{ $loop->iteration}}</td>
                                         <td class="text-center">{{ $pangkatgolongans->name  }}</td>
                                         <td class="text-center">{{ $pangkatgolongans->status}}</td>
-                                       
+
                                         <td class="text-center">
                                             <a href="{{ route('pangkatgolongan.show',$pangkatgolongans->rank_group_id) }}"class="btn btn-info" id="editButton" data-target="#editPegawai">
                                                 <i class="cil-zoom-in"></i>
@@ -535,9 +585,10 @@
             <div class="card">
                 <h5>
                     <div class="card-header">
+                        <h4>Data Keluarga</h4>
                         <div class="d-flex">
-                            Data Keluarga
-                            {{-- <a href="{{ route('biodatakeluarga.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah Biodata Keluarga</a> --}}
+
+                            <a href="{{ route('biodatakeluarga.create',  ['nip_nik'=> $biodatapegawai->nip_nik]) }}" class="btn btn-primary">Tambah</a>
                             </div>
                     </div>
                 </h5>

@@ -8,6 +8,8 @@ use App\District;
 use App\Regency;
 use App\Address_Details;
 use App\Role;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class BiodatapribadiController extends Controller
 {
@@ -37,7 +39,6 @@ class BiodatapribadiController extends Controller
 
     }
 
-
     public function get_kecamatan(Request $request)
     {
         $kecamatan = District::where('regency_id',$request->kabupaten_kota)->get();
@@ -48,8 +49,9 @@ class BiodatapribadiController extends Controller
 
     public function store(Request $request)
     {
+        // dd($request->all());
         $fileName = $request->upload_gambar->getClientOriginalName();
-        dd($request->all());
+        // dd($request->all());
 
         $user= User::create([
 
@@ -86,12 +88,12 @@ class BiodatapribadiController extends Controller
         //     'district_name'=>$request->district_name,
 
         // ]);
-         $address= Address_Details::create([
-             'address_detail_id'=>$request->address_detail_id,
-             'nip_nik'=>$request->nip_nik,
-             'district_id'=>$request->districts,
-             'address'=>$request->address,
-         ]);
+        //  $address= Address_Details::create([
+        //      'address_detail_id'=>$request->address_detail_id,
+        //      'nip_nik'=>$request->nip_nik,
+        //      'district_id'=>$request->districts,
+        //      'address'=>$request->address,
+        //  ]);
 
         //  $regency= Regency::create([
         //     'regency_id'=>$request->regencies,
@@ -121,28 +123,36 @@ class BiodatapribadiController extends Controller
             'nip_nik'=> $request->nip_nik,
             'district_id'=> $request->districts,
             'address'=>$request->address,
-
         ]);
-
-
-
-        return redirect()->route("biodatapegawai.index");
+        return redirect()->route("biodatapegawai.index")->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function edit($nip_nik){
-        $biodatapegawai=User::find($nip_nik);
+        $biodatapegawai=User::join('address_details', 'users.nip_nik', '=', 'address_details.nip_nik')
+        ->join('districts', 'address_details.district_id', '=', 'districts.district_id')
+        ->join('regencies', 'districts.regency_id', '=', 'regencies.regency_id')
+        ->join('roles', 'users.role_id', '=', 'roles.id')
+        ->select('users.*', 'address_details.address', 'districts.district_id', 'regencies.regency_id', 'roles.*')
+        ->where('users.nip_nik', '=', $nip_nik)
+        ->first();
         $regencies = Regency::pluck('regency_name','regency_id');
         $districts = District::pluck('district_name','district_id');
-        $role = Role::pluck('nama_role');
+        $role = Role::pluck('nama_role','id');
 
-        return view('biodatapegawai.edit', compact('biodatapegawai','regencies', 'districts','role'));
+        $role_id = $biodatapegawai->role_id;
+        $district_id = $biodatapegawai->district_id;
+        $regency_id = $biodatapegawai->regency_id;
+
+        // dd($role_id);
+
+        return view('biodatapegawai.edit', compact('biodatapegawai','regencies', 'districts','role', 'district_id', 'regency_id', 'role_id'));
 
     }
-
 
     public function update(Request $request)
     {
         // dd($request->all());
+        if($request->upload_gambar){
         $fileName = $request->upload_gambar->getClientOriginalName();
         // $biodatapegawai=User::find($id);
         $biodatapegawai= User::where("nip_nik",$request->nip_nik)->update([
@@ -161,7 +171,6 @@ class BiodatapribadiController extends Controller
             'npwp'=>$request->input('npwp'),
             'role_id'=>$request->input('roleselect'),
             'username'=>$request->input('nip_nik'),
-            'password'=>bcrypt($request->nip_nik),
             'bpjs'=>$request->input('bpjs'),
             'gender'=>$request->input('gender'),
             'religion'=>$request->input('religion'),
@@ -171,16 +180,91 @@ class BiodatapribadiController extends Controller
             'employee_status'=>$request->input('employee_status'),
             'photo' => $request->upload_gambar->storeAs('photo', $fileName,'public'),
             ]);
+        }else{
+
+            $biodatapegawai= User::where("nip_nik",$request->nip_nik)->update([
+                'nidn'=>$request->input('nidn'),
+                'title_ahead'=>$request->input('title_ahead'),
+                'real_name'=>$request->input('real_name'),
+                'back_title'=>$request->input('back_title'),
+                'birth_place'=>$request->input('birth_place'),
+                'birth_date'=>$request->input('birth_date'),
+                'blood_group'=>$request->input('blood_group'),
+                'height'=>$request->input('height'),
+                'weight'=>$request->input('weight'),
+                'phone_number'=>$request->input('phone_number'),
+                'email'=>$request->input('email'),
+                'id_card_number'=>$request->input('id_card_number'),
+                'npwp'=>$request->input('npwp'),
+                'role_id'=>$request->input('roleselect'),
+                'username'=>$request->input('nip_nik'),
+                'bpjs'=>$request->input('bpjs'),
+                'gender'=>$request->input('gender'),
+                'religion'=>$request->input('religion'),
+                'marital_status'=>$request->input('marital_status'),
+                'citizen_status'=>$request->input('citizen_status'),
+                'retirement_age_limit'=>$request->input('retirement_age_limit'),
+                'employee_status'=>$request->input('employee_status'),
+                ]);
+        }
             // 'photo' => $file->getClientOriginalName(),
-            $address= Address_Details::where("address_details_id",$request->address_details_id)->update([
+            $address= Address_Details::where("nip_nik",$request->nip_nik)->update([
 
                 'district_id'=>$request->input('districts'),
                 'address'=>$request->input('address'),
             ]);
 
+            if(Auth::user()->role_id == 2){
+                return redirect()->route('profildiri.index')->with(['success' => 'Data Berhasil Disimpan']);
+            }else{
+                return redirect()->route("biodatapegawai.index")->with(['success' => 'Data Berhasil Disimpan']);
+            }
 
-            return redirect()->route("biodatapegawai.index");
     }
+
+
+    // public function update(Request $request)
+    // {
+    //     // dd($request->all());
+    //     $fileName = $request->upload_gambar->getClientOriginalName();
+    //     // $biodatapegawai=User::find($id);
+    //     $profildiri= User::where("nip_nik",$request->nip_nik)->update([
+    //         'nidn'=>$request->input('nidn'),
+    //         'title_ahead'=>$request->input('title_ahead'),
+    //         'real_name'=>$request->input('real_name'),
+    //         'back_title'=>$request->input('back_title'),
+    //         'birth_place'=>$request->input('birth_place'),
+    //         'birth_date'=>$request->input('birth_date'),
+    //         'blood_group'=>$request->input('blood_group'),
+    //         'height'=>$request->input('height'),
+    //         'weight'=>$request->input('weight'),
+    //         'phone_number'=>$request->input('phone_number'),
+    //         'email'=>$request->input('email'),
+    //         'id_card_number'=>$request->input('id_card_number'),
+    //         'npwp'=>$request->input('npwp'),
+    //         'role_id'=>$request->input('roleselect'),
+    //         'username'=>$request->input('nip_nik'),
+    //         'bpjs'=>$request->input('bpjs'),
+    //         'gender'=>$request->input('gender'),
+    //         'religion'=>$request->input('religion'),
+    //         'marital_status'=>$request->input('marital_status'),
+    //         'citizen_status'=>$request->input('citizen_status'),
+    //         'retirement_age_limit'=>$request->input('retirement_age_limit'),
+    //         'employee_status'=>$request->input('employee_status'),
+    //         'photo' => $request->upload_gambar->storeAs('photo', $fileName,'public'),
+    //         ]);
+    //         // 'photo' => $file->getClientOriginalName(),
+    //         $address= Address_Details::where("address_details_id",$request->address_details_id)->update([
+
+    //             'district_id'=>$request->input('districts'),
+    //             'address'=>$request->input('address'),
+    //         ]);
+
+
+
+    //         return redirect()->route("profildiri.index")->with(['success' => 'Data Berhasil Disimpan']);
+    // }
+
 
     public function destroy($nip_nik)
     {
@@ -188,17 +272,21 @@ class BiodatapribadiController extends Controller
         $biodatapegawai = User::find($nip_nik);
         $biodatapegawai->delete();
         // Session::flash('message', 'Successfully deleted the data!');
-        return redirect()->back();
+        return redirect()->back() ->with(['error' => 'Data Berhasil Dihapus']);
     }
-
 
     public function create()
     {
         $regencies = Regency::pluck('regency_name','regency_id');
         $districts = District::pluck('district_name','district_id');
-        $role = Role::pluck('nama_role');
+        $role = Role::pluck('nama_role', 'id');
 
-        return view('biodatapegawai.create', compact('regencies','districts','role'));
+        $role_id = null;
+        $district_id = null;
+        $regency_id = null;
+        $biodatapegawai = null;
+
+        return view('biodatapegawai.create', compact('biodatapegawai', 'regencies','districts','role', 'district_id', 'regency_id', 'role_id'));
     }
 
 
@@ -212,6 +300,35 @@ class BiodatapribadiController extends Controller
         // dd($address);
         // dd($biodatapegawai->address_details->first()->district);
         return view('biodatapegawai.show', compact('biodatapegawai', 'address', 'district', 'regency'));
+
+    }
+
+    public function gantipass($nip_nik)
+    {
+        $nip_nik = $nip_nik;
+        $biodatapegawai = User::find($nip_nik);
+
+        return view('biodatapegawai.gantipass', compact('biodatapegawai', 'nip_nik'));
+    }
+
+    public function updatepass(Request $request)
+    {
+        $biodatapegawai= User::find($request->nip_nik);
+
+        // dd(Hash::check($request->old_password, bcrypt($request->old_password)), Hash::check($request->old_password, $biodatapegawai->password));
+
+        if(Hash::check($request->old_password, bcrypt($request->old_password)) == Hash::check($request->old_password, $biodatapegawai->password)){
+            $biodatapegawai = User::where("nip_nik",$request->nip_nik)->update([
+                'password'=>bcrypt($request->password),
+                ]);
+                if(Auth::user()->role_id == 2){
+                    return redirect()->route('profildiri.index')->with(['success' => 'Password Berhasil Diubah']);
+                }else{
+                    return redirect()->route('biodatapegawai.show', $request->nip_nik)->with(['success' => 'Password Berhasil Diubah']);
+                }
+        }else{
+            return redirect()->back()->with(['error' => 'Password Lama Salah']);
+        }
 
     }
 

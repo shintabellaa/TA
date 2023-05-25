@@ -20,10 +20,13 @@ class EducationDetailsController extends Controller
     public function create(Request $request)
     {
         $nipnik = $request->nip_nik;
-        $biodatapegawai = User::pluck('real_name','nip_nik');
+        $biodatapegawai = User::find($nipnik);
         $education = Education::pluck('level','education_id');
+        $education_id = null;
 
-        return view('educationdetail.create', compact('nipnik','education','biodatapegawai'));
+        // dd($biodatapegawai);
+
+        return view('educationdetail.create', compact('nipnik','education','biodatapegawai', 'education_id'));
 
     }
 
@@ -46,9 +49,8 @@ class EducationDetailsController extends Controller
 
         ]);
 
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]) ->with(['success' => 'Data Berhasil Disimpan']);
     }
-
 
     public function show($id)
     {
@@ -60,11 +62,16 @@ class EducationDetailsController extends Controller
 
     public function edit($education_details_id)
     {
-        $biodatapegawai = User::pluck('real_name','nip_nik');
-        $educationdetail = Education_Details::find($education_details_id);
-        $education = Education::pluck('level','education_id');
 
-        return view('educationdetail.edit', compact('educationdetail','biodatapegawai','education'));
+        $educationdetail = Education_Details::join('education', 'education_details.education_id', '=', 'education.education_id')
+        ->select('education_details.*', 'education.*')->where('education_details.education_details_id', '=', $education_details_id)->first();
+        $biodatapegawai = User::find($educationdetail->nip_nik);
+        $education = Education::pluck('level','education_id');
+        $education_id = $educationdetail->education_id;
+
+        // dd($educationdetail);
+
+        return view('educationdetail.edit', compact('educationdetail','biodatapegawai','education','education_id'));
     }
 
 
@@ -84,7 +91,7 @@ class EducationDetailsController extends Controller
             'certificate_file' => $request->certificate_file->storeAs('certificate_file', $fileName,'public'),
         ]);
 
-        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')]);
+        return redirect()->route('biodatapegawai.show', ['biodatapegawai' => $request->input('nip_nik')])->with(['success' => 'Data Berhasil Disimpan']);
         // return redirect()->route('biodatapegawai.index',['nip_nik']);
     }
 
@@ -95,6 +102,6 @@ class EducationDetailsController extends Controller
         $educationdetail = Education_Details::find($id);
         $educationdetail->delete();
 
-        return redirect()->back();
+        return redirect()->back()->with(['error' => 'Data Berhasil Dihapus']);
     }
 }

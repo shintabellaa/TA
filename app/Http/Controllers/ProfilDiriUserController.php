@@ -17,28 +17,48 @@ use Auth;
 class ProfilDiriUserController extends Controller
 {
     public function index(){
-        $profildiri = User :: all();
+        $profildiri = User :: with([
+           'address_details'=>function($q){
+
+            return $q->with(['district', 'district.regency'])->orderby('address_details_id', 'desc')->limit(1);
+           }
+
+        ])->find(Auth::user()->nip_nik);
+
         $education = User::leftJoin('education_details','education_details.nip_nik', '=', 'users.nip_nik')
         ->leftJoin('education','education.education_id', '=', 'education_details.education_id')
         ->where('education_details.nip_nik', Auth::user()->nip_nik)->get();
+
         $training = User::leftJoin('trainings','trainings.nip_nik', '=', 'users.nip_nik')
         ->where('trainings.nip_nik', Auth::user()->nip_nik)->get();
+
         $struktural_details = User::leftJoin('structural_details','structural_details.nip_nik', '=', 'users.nip_nik')
         ->leftJoin('structurals','structurals.structural_id', '=', 'structural_details.structural_id')
         ->where('structural_details.nip_nik', Auth::user()->nip_nik)->get();
+
         $rank_group = User::leftJoin('rank_groups','rank_groups.nip_nik', '=', 'users.nip_nik')
         ->where('rank_groups.nip_nik', Auth::user()->nip_nik)->get();
+
+        $mutasi = User::leftJoin('employee_transfers','employee_transfers.nip_nik', '=', 'users.nip_nik')
+        ->leftJoin('work_units','work_units.work_unit_id', '=', 'employee_transfers.work_unit_id')
+        ->where('employee_transfers.nip_nik', Auth::user()->nip_nik)->get();
+
         $family = User::leftJoin('family','family.nip_nik', '=', 'users.nip_nik')
         ->where('family.nip_nik', Auth::user()->nip_nik)->get();
+
         $fungsional = User::leftJoin('functional_details','functional_details.nip_nik', '=', 'users.nip_nik')
         ->leftJoin('functionals','functionals.functional_id', '=', 'functional_details.functional_id')
        ->where('functional_details.nip_nik', Auth::user()->nip_nik)->get();
+
         $role = Role::get();
         // dd($biodatapegawai);
         $regencies = Regency::all();
 
-
-        return view ('profildiriuser.index', compact('profildiri','regencies','role','education','training','struktural_details','rank_group','family','fungsional'));
+        if(Auth::user()->role_id == 1){
+            return redirect()->route('home');
+        }else{
+            return view ('profildiriuser.index', compact('profildiri','regencies','role','mutasi','education','training','struktural_details','rank_group','family','fungsional'));
+        }
         // return view ('biodatapegawai.biodatapribadi', [
         //     'biodatapribadi' => $biodatapribadi
         // ]);
@@ -154,7 +174,7 @@ class ProfilDiriUserController extends Controller
 
 
 
-        return redirect()->route("profildiri.index");
+        return redirect()->route("profildiri.index")->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function edit($nip_nik){
@@ -180,7 +200,7 @@ class ProfilDiriUserController extends Controller
             'back_title'=>$request->input('back_title'),
             'birth_place'=>$request->input('birth_place'),
             'birth_date'=>$request->input('birth_date'),
-            'blood_group'=>$request->input('blood_group'),
+            'blood_group'=>$request->input('blood_group'), 
             'height'=>$request->input('height'),
             'weight'=>$request->input('weight'),
             'phone_number'=>$request->input('phone_number'),
@@ -189,7 +209,6 @@ class ProfilDiriUserController extends Controller
             'npwp'=>$request->input('npwp'),
             'role_id'=>$request->input('roleselect'),
             'username'=>$request->input('nip_nik'),
-            'password'=>bcrypt($request->nip_nik),
             'bpjs'=>$request->input('bpjs'),
             'gender'=>$request->input('gender'),
             'religion'=>$request->input('religion'),
@@ -207,7 +226,7 @@ class ProfilDiriUserController extends Controller
             ]);
 
 
-            return redirect()->route("profildiri.index");
+            return redirect()->route("profildiri.index")->with(['success' => 'Data Berhasil Disimpan']);
     }
 
     public function destroy($nip_nik)
@@ -216,7 +235,7 @@ class ProfilDiriUserController extends Controller
         $profildiri = User::find($nip_nik);
         $profildiri->delete();
         // Session::flash('message', 'Successfully deleted the data!');
-        return redirect()->back();
+        return redirect()->back()->with(['error' => 'Data Berhasil Dihapus']);
     }
 
 
@@ -226,7 +245,7 @@ class ProfilDiriUserController extends Controller
         $districts = District::pluck('district_name','district_id');
         $role = Role::pluck('nama_role');
 
-        return view('profildiri.create', compact('regencies','districts','role'));
+        return view('profildiri.create', compact('regencies','districts','role'))->with(['error' => 'Data Berhasil Dihapus']);
     }
 
 
