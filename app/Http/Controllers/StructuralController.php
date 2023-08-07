@@ -12,23 +12,25 @@ class StructuralController extends Controller
 {
     public function index()
     {
-       
-        // //load data
         // $struktural = Structural::all();
-        $url = "http://127.0.0.1:8000/api/struktural?api-key=W8RSDrfiRapkpis3jAvM9adAkQcVXcBN11fwddTY";
-        // $json = file_get_contents($url);
-        // $struktural = json_decode($json, true);
-        // dd($struktural);
+
+        $url = "http://localhost/ta/public/api/struktural?api-key=xddHIyF6x21VyfTO4pwaP3ArUqFiGfoQRrDE64hv";
+        // $url_encode = urlencode($url);
+
 
         try {
             $client = new Client();
             // dd("Hello 1");
             $res = $client->request('GET',$url);
-            
-            dd("Hello 3");
+
+            // dd("Hello 3");
             $json = $res->getBody();
-            $json = json_decode($json, true);
-            dd($json);  
+            $struktural = json_decode($json, true);
+
+            $struktural = collect($struktural)->map(function ($s){
+                return (object) $s;
+            });
+            // dd($struktural);
 
         }catch(Exception $e){
             dd($e->getMessage());

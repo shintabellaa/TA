@@ -10,12 +10,14 @@ use App\Address_Details;
 use App\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use GuzzleHttp\Client;
 
 class BiodatapribadiController extends Controller
 {
     public function index(){
         // dd(public_path());
         $biodatapegawai = User::get();
+
         $role = Role::get();
         // dd($biodatapegawai);
         $regencies = Regency::all();
@@ -275,6 +277,7 @@ class BiodatapribadiController extends Controller
         return redirect()->back() ->with(['error' => 'Data Berhasil Dihapus']);
     }
 
+    
     public function create()
     {
         $regencies = Regency::pluck('regency_name','regency_id');

@@ -14,7 +14,7 @@ class TrainingUserController extends Controller
     public function index()
     {
         $trainings = Training::all();
-        //buka halaman dan kirim data, kirim data = compact
+
         return view('traininguser.index', compact('trainings'));
     }
 
@@ -28,7 +28,7 @@ class TrainingUserController extends Controller
         }
 
         $biodatapegawai = User::find($nipnik);
-        // dd($biodatapegawai);
+
         return view('traininguser.create', compact('nipnik', 'biodatapegawai'));;
     }
 
@@ -102,7 +102,7 @@ class TrainingUserController extends Controller
     }
 
 
-    
+
         return redirect()->route('profildiri.index')->with(['success' => 'Data Berhasil Disimpan']);
     }
 

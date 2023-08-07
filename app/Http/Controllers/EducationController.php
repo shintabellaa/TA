@@ -6,14 +6,38 @@ use App\Education;
 use App\Education_Details;
 use Illuminate\Http\Request;
 use App\User;
+use GuzzleHttp\Client;
+
 
 class EducationController extends Controller
 {
 
     public function index()
     {
-        $education = Education::all();
-        //buka halaman dan kirim data, kirim data = compact
+        // $education = Education::all();
+
+        $url = "http://localhost/ta/public/api/education?api-key=xddHIyF6x21VyfTO4pwaP3ArUqFiGfoQRrDE64hv";
+        $url_encode = urlencode($url);
+
+
+        try {
+            $client = new Client();
+            // dd("Hello 1");
+            $res = $client->request('GET',$url);
+
+            // dd("Hello 3");
+            $json = $res->getBody();
+            $education = json_decode($json, true);
+
+            $education = collect($education)->map(function ($s){
+                return (object) $s;
+            });
+            // dd($struktural);
+
+        }catch(Exception $e){
+            dd($e->getMessage());
+        }
+
         return view('education.index', compact('education'));
     }
 

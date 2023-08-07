@@ -4,14 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Work_Unit;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
+
 
 class WorkUnitController extends Controller
 {
     public function index()
     {
-        //load data
+
         $work_units = Work_Unit::all();
-        //buka halaman dan kirim data, kirim data = compact
+
+        // $url = "http://localhost/ta/public/api/workunit?api-key=xddHIyF6x21VyfTO4pwaP3ArUqFiGfoQRrDE64hv";
+        // // $url_encode = urlencode($url);
+
+
+        // try {
+        //     $client = new Client();
+        //     // dd("Hello 1");
+        //     $res = $client->request('GET',$url);
+
+        //     // dd("Hello 3");
+        //     $json = $res->getBody();
+        //     $work_units = json_decode($json, true);
+
+        //     $work_units = collect($work_units)->map(function ($s){
+        //         return (object) $s;
+        //     });
+        //     // dd($struktural);
+
+        // }catch(Exception $e){
+        //     dd($e->getMessage());
+        // }
         return view('unitkerja.index', compact('work_units'));
     }
 

@@ -13,7 +13,8 @@ class ApiMasterController extends Controller
     public function struktural()
     {
         $data=Structural::get();
-        return json_encode($data);
+        // dd($data);
+        return response(json_encode($data));
     }
 
     public function fungsional()

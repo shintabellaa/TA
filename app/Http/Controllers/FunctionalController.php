@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Functional;
 use App\Functional_Details;
 use Illuminate\Http\Request;
+use GuzzleHttp\Client;
 
 
 class FunctionalController extends Controller
@@ -14,7 +15,28 @@ class FunctionalController extends Controller
     {
          //load data
          $fungsional = Functional::all();
-         //buka halaman dan kirim data, kirim data = compact
+
+        //  $url = "http://localhost/ta/public/api/fungsional?api-key=xddHIyF6x21VyfTO4pwaP3ArUqFiGfoQRrDE64hv";
+        // //  $url_encode = urlencode($url);
+
+
+        //  try {
+        //      $client = new Client();
+        //      // dd("Hello 1");
+        //      $res = $client->request('GET',$url);
+
+        //      // dd("Hello 3");
+        //      $json = $res->getBody();
+        //      $fungsional = json_decode($json, true);
+
+        //      $fungsional = collect($fungsional)->map(function ($s){
+        //          return (object) $s;
+        //      });
+        //      // dd($struktural);
+
+        //  }catch(Exception $e){
+        //      dd($e->getMessage());
+        //  }
          return view('fungsional.index', compact('fungsional'));
     }
 
